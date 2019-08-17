@@ -1,0 +1,3 @@
+Okidoki.
+So I've cloned the FNA repo and copied over the Windows x86 library binaries it depends on (SDL2, Mojoshader, SDL2_Image, FAudio) so that when FNA is built it will pass on the libraries.
+Which means, whenever you update FNA you *might* need to update these binaries as well.
