@@ -1,0 +1,10 @@
+Data\Models\plantLarge.xnb
+Data\Models\texture_0.xnb
+Data\Models\texture.xnb
+Data\World\world.xnb
+Data\World\WorldTexture.xnb
+FNA.dll.config
+FAudio.dll
+MojoShader.dll
+SDL2.dll
+SDL2_image.dll
