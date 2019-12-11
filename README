@@ -1,3 +1,54 @@
+
+
+DESIGN
+------
+
+Always going forward, never stop, never go backwards.
+Accumulating speed instead of instant which requires skill. Movement path through level is important and requires some improvisation as your killing enemies at the same time.
+Short levels, a continous loop of self improvement
+
+Similar/inspiration games:
+
+- Quake Defrag
+    Quake mod, levels based on strafe jumping, rocket jumping, etc to complete. Strafe jumping is an accumulating speed which requires skill.
+- Perfect Stride 
+    Great feeling movement, always going forward. A bit odd controls at first, turning to gain speed but not turning too fast. Kinda like racing. Movement requires skill.
+- Devil Daggers
+    Quake looking FPS, great visuals and great FPS controls
+- Lovely Planet
+
+- High hell
+    Cool artstyle, only one weapon and short levels (atleast the first few). BUT... cramped so you easily get stuck and not an apparent level path.
+- DOOM (2016)
+    Great feel and when you get into the groove you can really get into just going forward, blasting enemies along the way. And possibly doing laps in the same level to finish of missed enemies (I remember one specific part later on in the game).
+
+
+---------------
+Unity prototype
+---------------
+
+
+
+
+---------------
+FNA version
+---------------
+
+
 Okidoki.
 So I've cloned the FNA repo and copied over the Windows x86 library binaries it depends on (SDL2, Mojoshader, SDL2_Image, FAudio) so that when FNA is built it will pass on the libraries.
 Which means, whenever you update FNA you *might* need to update these binaries as well.
+
+
+TASK LIST
+---------
+
+- Level
+- FPS movement
+- Timer
+- Level start & end
+- Physics (collision)
+- Attack
+- Enemies
+
+
