@@ -1,5 +1,4 @@
 using UnityEngine;
-using vnc;
 
 namespace vnc.Movements
 {
@@ -7,6 +6,7 @@ namespace vnc.Movements
     {
         bool sliding;
         public float speedBoost = 0.1f;
+        public float slideFriction = 0.1f;
         public float stopSpeed = 0.1f;
         [Range(-1, 1)]
         public float dotLimit = 0.7f;
@@ -15,26 +15,38 @@ namespace vnc.Movements
         {
             if (sliding)
             {
+                if (retroController.JumpInput)
+                {
+                    sliding = false;
+                    return false;
+                }
+
                 // reset the grounded state
-                if (retroController.HasCollisionFlag(RetroController.CC_Collision.CollisionBelow))
+                if (retroController.HasCollision(RetroController.CC_Collision.CollisionBelow))
                     retroController.AddState(RetroController.CC_State.IsGrounded);
                 else
                     retroController.RemoveState(RetroController.CC_State.IsGrounded);
 
-                sliding = retroController.Velocity.magnitude > stopSpeed;
                 if (!retroController.IsGrounded)
                     retroController.AddGravity();
+
+                retroController.Velocity = MoveSlide(retroController.Velocity);
+
                 retroController.CharacterMove(retroController.Velocity);
 
-                if(!sliding)
-                    retroController.RemoveState(RetroController.CC_State.Ducking);
+                if(sliding)
+                    sliding = retroController.Velocity.magnitude > stopSpeed;
 
                 return true;
             }
-            else if (retroController.Sprint && retroController.DuckInput)
+            else
             {
                 var d = Vector3.Dot(retroController.Velocity.normalized, transform.forward);
-                if (d >= dotLimit)
+                if (retroController.Sprint 
+                    && !retroController.HasState(RetroController.CC_State.Ducking)
+                    && retroController.HasState(RetroController.CC_State.IsGrounded)
+                    && retroController.DuckInput
+                    && (d >= dotLimit))
                 {
                     sliding = true;
                     retroController.Velocity += transform.forward * speedBoost;
@@ -47,9 +59,22 @@ namespace vnc.Movements
             return false;
         }
 
+        private Vector3 MoveSlide(Vector3 prevVelocity)
+        {
+            prevVelocity = retroController.Friction(prevVelocity, slideFriction);
+            return prevVelocity;
+        }
+
         public override void OnCharacterMove()
         {
-
+            if (sliding)
+            {
+                if (retroController.HasCollision(RetroController.CC_Collision.CollisionSides)
+                    || retroController.HasCollision(RetroController.CC_Collision.CollisionStep))
+                {
+                    sliding = false;
+                }
+            }
         }
     }
 }

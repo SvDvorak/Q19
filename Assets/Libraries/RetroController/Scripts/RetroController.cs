@@ -52,6 +52,7 @@ namespace vnc
         // Velocity
         [HideInInspector] public Vector3 Velocity;
         protected Vector3 wishDir;    // the direction from the input
+        public Vector3 WishDirection { get { return wishDir; } }
         protected float wishSpeed;
 
         protected bool wasGrounded = false;   // if player was on ground on previous update
@@ -78,7 +79,7 @@ namespace vnc
         public bool OnPlatform { get { return (State & CC_State.OnPlatform) != 0; } }
         public bool OnLadder { get { return (State & CC_State.OnLadder) != 0; } }
         public bool IsDucking { get { return (State & CC_State.Ducking) != 0; } }
-        public bool WalkedOnStep { get { return HasCollisionFlag(CC_Collision.CollisionStep); } }
+        public bool WalkedOnStep { get { return HasCollision(CC_Collision.CollisionStep); } }
         public bool NoClipping
         {
             get { return HasState(CC_State.NoClip); }
@@ -111,6 +112,7 @@ namespace vnc
         public float SlopeDot { get { return (Profile.SlopeAngleLimit / 90f); } }
 
         // Custom movements
+        [HideInInspector] public bool autoFillMovements;
         [HideInInspector] public RetroMovement[] retroMovements;
 
         // CALLBACK EVENTS
@@ -143,6 +145,9 @@ namespace vnc
             SetupRigidbody();
 
             // load custom movements
+            if (autoFillMovements)
+                retroMovements = GetComponentsInChildren<RetroMovement>();
+
             for (int i = 0; i < retroMovements.Length; i++)
                 retroMovements[i].OnAwake(this);
 
@@ -165,7 +170,9 @@ namespace vnc
                 int index = 0;
                 while (!isDone && index < retroMovements.Length)
                 {
-                    isDone = retroMovements[index].DoMovement();
+                    if (retroMovements[index].IsActive)
+                        isDone = retroMovements[index].DoMovement();
+
                     index++;
                 }
             }
@@ -183,19 +190,20 @@ namespace vnc
                     if (OnLadder && !detachLadder)
                     {
                         LadderMovementUpdate();
+                        RemoveState(CC_State.Ducking);
                     }
                     else if (IsSwimming && WaterState == CC_Water.Underwater)
                     {
                         WaterMovementUpdate();
+                        OnDuckState();
                     }
                     else
                     {
                         GroundMovementUpdate();
+                        OnDuckState();
                     }
                 }
             }
-
-            OnDuckState();
 
             OnFixedUpdateEndCallback.Invoke();
             wasOnStep = WalkedOnStep;
@@ -233,7 +241,7 @@ namespace vnc
         /// <summary>
         /// Set the Ducking state on the controller
         /// </summary>
-        protected virtual void OnDuckState()
+        public virtual void OnDuckState()
         {
             if (!wasDucking && DuckInput)
                 duckingTimer = Time.time;
@@ -294,7 +302,7 @@ namespace vnc
         protected virtual void GroundMovementUpdate()
         {
             // reset the grounded state
-            if (HasCollisionFlag(CC_Collision.CollisionBelow))
+            if (HasCollision(CC_Collision.CollisionBelow))
                 AddState(CC_State.IsGrounded);
             else
                 RemoveState(CC_State.IsGrounded);
@@ -406,7 +414,7 @@ namespace vnc
         /// </summary>
         protected virtual void LadderMovementUpdate()
         {
-            if (HasCollisionFlag(CC_Collision.CollisionBelow))
+            if (HasCollision(CC_Collision.CollisionBelow))
                 AddState(CC_State.IsGrounded);
             else
                 RemoveState(CC_State.IsGrounded);
@@ -528,7 +536,6 @@ namespace vnc
         /// </summary>
         protected virtual void MoveAir()
         {
-            //float maxSpeed = sprintJump ? Profile.MaxAirSprintSpeed : Profile.MaxAirSpeed;
             AccelerateAir(wishDir, wishSpeed, Profile.AirAcceleration, Profile.MaxAirSpeed);
         }
 
@@ -566,6 +573,8 @@ namespace vnc
 
         protected virtual void AccelerateAir(Vector3 wishDir, float wishSpeed, float accelerate, float maxSpeed)
         {
+            float currentSpeed, addspeed, accelSpeed, wspd;
+
             switch (Profile.AirControl)
             {
                 case AirControl.AirStrafing:
@@ -576,22 +585,21 @@ namespace vnc
                         wishSpeed = maxSpeed;
                     }
 
-                    float wishspd = wishDir.magnitude;
-                    if (wishspd > Profile.MaxAirControl)
-                        wishspd = Profile.MaxAirControl;
+                    //Controls how much the player can move mid-air
+                    wspd = MidairControl(wishSpeed);
 
-                    var currentSpeed = Vector3.Dot(Velocity, wishDir);
-                    var addspeed = wishspd - currentSpeed;
+                    currentSpeed = Vector3.Dot(Velocity, wishDir);
+                    addspeed = wspd - currentSpeed;
                     if (addspeed <= 0)
                         return;
 
-                    var accelSpeed = accelerate * wishSpeed * Time.fixedDeltaTime;
+                    accelSpeed = accelerate * wishSpeed * Time.fixedDeltaTime;
                     if (accelSpeed > addspeed)
                         accelSpeed = addspeed;
 
                     Velocity += accelSpeed * wishDir;
                     break;
-                case AirControl.Full:
+                case AirControl.Normal:
                 default:
                     var projVel = Vector3.Dot(Velocity, wishDir);
 
@@ -604,13 +612,21 @@ namespace vnc
                     break;
             }
         }
+
+        protected virtual float MidairControl(float wishSpeed)
+        {
+            if (wishSpeed > Profile.MaxAirControl)
+                return  Profile.MaxAirControl;
+
+            return wishSpeed;
+        }
         #endregion
 
         #region Friction
         /// <summary>
         /// Generic friction, decrease the Velocity of the controller.
         /// </summary>
-        protected virtual Vector3 Friction(Vector3 prevVelocity, float friction)
+        public virtual Vector3 Friction(Vector3 prevVelocity, float friction)
         {
             var wishspeed = prevVelocity;
 
@@ -690,7 +706,8 @@ namespace vnc
             {
                 // execute the necessary checks for custom movements
                 for (int i = 0; i < retroMovements.Length; i++)
-                    retroMovements[i].OnCharacterMove();
+                    if (retroMovements[i].IsActive)
+                        retroMovements[i].OnCharacterMove();
             }
 
             //DetectLedge();
@@ -698,7 +715,7 @@ namespace vnc
             SetWaterLevel();
 
             // extra check to detect ground
-            if (!(HasCollisionFlag(CC_Collision.CollisionBelow)))
+            if (!(HasCollision(CC_Collision.CollisionBelow)))
                 DetectGround();
         }
 
@@ -854,7 +871,7 @@ namespace vnc
             horizontalVel.y = 0;
 
             // Check if the player is in the border of the water, give it a little push
-            if (HasCollisionFlag(CC_Collision.CollisionSides)
+            if (HasCollision(CC_Collision.CollisionSides)
                 && Swim > 0
                 && WaterState == CC_Water.Partial
                 && Vector3.Dot(normal, horizontalVel) < -0.8f)
@@ -1084,9 +1101,11 @@ namespace vnc
             return false;
         }
 
+        [System.Obsolete("Use 'HasCollision' instead")]
         public bool HasCollisionFlag(CC_Collision flag)
         {
-            return (Collisions & flag) != 0;
+            return HasCollision(flag);
+            //return (Collisions & flag) != 0;
         }
 
         /// <summary>
@@ -1147,6 +1166,7 @@ namespace vnc
         public void TeleportTo(Vector3 worldPosition, bool resetVelocity = true)
         {
             FixedPosition = worldPosition;
+            _rigidbody.position = FixedPosition;
             if (resetVelocity)
                 Velocity = Vector3.zero;
         }

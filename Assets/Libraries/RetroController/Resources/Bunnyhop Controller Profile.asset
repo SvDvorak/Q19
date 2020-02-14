@@ -1,0 +1,59 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a566adb2fcf5c9b46905237be7514513, type: 3}
+  m_Name: Bunnyhop Controller Profile
+  m_EditorClassIdentifier: 
+  Gravity: 0.55
+  WaterGravityScale: 0.26
+  JumpSpeed: 0.2
+  JumpGraceTime: 5
+  JumpInputTimer: 20
+  WaterEdgeJumpSpeed: 0.16
+  LadderDetachJumpSpeed: 0.2
+  DuckingTimeDelay: 0
+  DuckingCenter: {x: 0, y: -0.5, z: 0}
+  DuckingSize: {x: 1, y: 0.8, z: 1}
+  DuckingViewOffset: 0.8
+  DuckingLerp: 1
+  DuckingLerpSpeed: 8
+  MaxGroundSpeed: 0.18
+  MaxGroundSprintSpeed: 0.3
+  MaxAirSpeed: 2
+  MaxAirSprintSpeed: 0
+  MaxWaterSpeed: 0.1
+  MaxDuckingSpeed: 0.14
+  MaxVerticalSpeedScale: 2
+  LadderSpeed: 0.08
+  MaxAirControl: 0.08
+  GroundAcceleration: 0.04
+  DuckingAcceleration: 0.05
+  AirAcceleration: 2
+  WaterAcceleration: 0.12
+  AirControl: 1
+  GroundFriction: 5
+  WaterFriction: 7.4
+  FlyFriction: 3
+  FlyingController: 0
+  SlopeAngleLimit: 73
+  SwimmingOffset: 0.14
+  StepOffset: 0.7
+  Center: {x: 0, y: 0, z: 0}
+  Size: {x: 1, y: 2, z: 1}
+  SurfaceLayers:
+    serializedVersion: 2
+    m_Bits: 4097
+  GroundCheck: 0.15
+  Depenetration: 0.001
+  HullExtends: 0.01
+  PlatformTag: Platform
+  WaterTag: Water
+  LadderTag: Ladder
