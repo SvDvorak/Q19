@@ -6,21 +6,48 @@ DESIGN
 Always going forward, never stop, never go backwards.
 Accumulating speed instead of instant which requires skill. Movement path through level is important and requires some improvisation as your killing enemies at the same time.
 Short levels, a continous loop of self improvement
+Lovely Planet uses the word "Gun Ballet" which is a good description.
 
 Similar/inspiration games:
 
 - Quake Defrag
-    Quake mod, levels based on strafe jumping, rocket jumping, etc to complete. Strafe jumping is an accumulating speed which requires skill.
+  Quake mod, levels based on strafe jumping, rocket jumping, etc to complete. Strafe jumping is an accumulating speed which requires skill.
+
 - Perfect Stride 
-    Great feeling movement, always going forward. A bit odd controls at first, turning to gain speed but not turning too fast. Kinda like racing. Movement requires skill.
+  Great feeling movement, always going forward. A bit odd controls at first, turning to gain speed but not turning too fast. Kinda like racing. Movement requires skill.
+    
 - Devil Daggers
-    Quake looking FPS, great visuals and great FPS controls
+  Quake looking FPS, great visuals and great FPS controls
+    
 - Lovely Planet
+  Levels are hard to complete, getting a great time is even harder. But in a good way, you don't have to do the super hard.
 
 - High hell
-    Cool artstyle, only one weapon and short levels (atleast the first few). BUT... cramped so you easily get stuck and not an apparent level path.
+  Cool artstyle, only one weapon and short levels (atleast the first few). BUT... cramped so you easily get stuck and not an apparent level path.
+
 - DOOM (2016)
-    Great feel and when you get into the groove you can really get into just going forward, blasting enemies along the way. And possibly doing laps in the same level to finish of missed enemies (I remember one specific part later on in the game).
+  Great feel and when you get into the groove you can really get into just going forward, blasting enemies along the way. And possibly doing laps in the same level to finish of missed enemies (I remember one specific part later on in the game).
+
+- Get To The Orange Door demo
+  Super fluid movement while also being quite forgiving. This is kinda the opposite of my design similar to racing which is making me reconsider the very forced line similar to Perfect Stride. You can do two things at the same time it seems, like reloading while kicking. Gave me an idea of how you can air kick or ground kick, what if each has a cooldown so you have to swap. Forcing you to shoot until you reload, use both kicks and then hopefully reload is done. This game has much more improvisation... which feels good when you react well. But there was also an aimlessness to the demo. Wondering if both can be combined, have a plan with a path but encourage improvisation during execution. I should buy it, demo seems to be old and a bit different?
+
+- FOTONICA
+  A bit too dissimilar, it's got the speed and shows it very nicely. The most similarities come to how to present speed and feedback on interaction. The camera wobble together with hands when jumping and landing is very nice. The game has multiple paths than you can weave between so missing one doesn't mean failure... and making such a mistake also forces you to improvise much more.
+
+- Frost Runner
+  Bad music, breathing character is annoying, UI is ugly, standard FPS controls. But hey, it works, feels a bit cookie cutter here at the start. Hand animation is a bit clunky and visibly repeating each jump. Ice movement has similarities to my movement but with less control. Good use of particles for the feeling of speed. Uses FOV change also, smart. Felt like it kept introducing new mechanics to keep it interesting instead of doing something with the ones it already had. Idea was probably to have different worlds but felt a bit shallow in practice.
+
+- Neon Boost
+  Rocket jumping, yay! Doesn't feel as good as quake, booo! Movement doesn't feel perfect but might have to do with the feedback, weapon jerks weirdly when jumping or landing and with no camera feedback. Just doesn't feel tight (yeah, that's a bit bullshit). Otherwise standard FPS controls. The neon is a bit extreme but I guess that is the style.
+
+- Cloudbuilt
+  Jerky animations, when going from wall run to ledge grab. Hard to even see a transition, kinda just instantly swaps. Barely any sounds? Works ok with the background music and swooshing I guess. Hanging when dropping feels like it slows you down. Seems like the tutorial does a bit of a disservice to the levels, too tight. Gotta say that they nailed the feeling of combining abilities one after another, every single one feel distinct and powerful it their own way. I think having it in 3rd person helps with feedback because you see the character animate as a response to actions. In first person that is trickier. Levels are very open ended. FOTONICA may have had a few paths, this is a sandbox in comparison. Story feels completely disconnected from gameplay though.
+
+- SEUM
+  Movement feels absolutely brilliant, great controls. Pretty funny intro that fits with the theme. Less improvisation and more about finding the optimal path and optimizing. Limited level movement. But allows for variation in timing in some levels based on fireball-shooters, activating platforms, moving spikes, etc.
+
+- Bunny Hop League
+  Damn it starts hard but the feeling when you start nailing bunny hopping... it just feels so good. Getting a perfect flow. But maybe a bit too binary on win/failure, here just getting through a level is very difficult. I want it to be somewhat tricky to get through but very hard to get a perfect run.
 
 
 Rendering references
@@ -31,6 +58,7 @@ https://www.reddit.com/r/Unity3D/comments/964rjx/advice_for_retrostyle_3d_fps_gr
 Keijiro Retro3D
 https://github.com/keijiro/Retro3D
 https://github.com/keijiro/Retro3DPipeline
+
 
 ---------------
 Unity prototype
