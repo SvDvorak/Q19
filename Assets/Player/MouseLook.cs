@@ -38,8 +38,9 @@ namespace Q19
             kick -= (Time.deltaTime * cameraKickSpeed);
             kick = Mathf.Clamp(kick, 0, cameraKickOffset);
 
-            float turn = maxTurnPerSecond * Time.deltaTime;
-            float yRot = Mathf.Clamp(Input.GetAxis("Mouse X") * mouseSensitivity, -turn, turn) * turnMultiplier;
+            //float turn = maxTurnPerSecond * Time.deltaTime;
+            //float yRot = Mathf.Clamp(Input.GetAxis("Mouse X") * mouseSensitivity, -turn, turn);
+            float yRot = Input.GetAxis("Mouse X") * mouseSensitivity;
             float xRot = Input.GetAxis("Mouse Y") * mouseSensitivity;
 
             m_CharacterTargetRot *= Quaternion.Euler(0f, yRot, 0f);

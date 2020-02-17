@@ -13,6 +13,7 @@ namespace Q19
     public class Player : MonoBehaviour
     {
         public RetroController retroController; // the controller used
+        public RetroControllerView retroView;
         public MouseLook mouseLook;             // mouse look
         public Transform playerView;            // the controller view
         public AnimationCurve turnStrengthCurve;
@@ -26,32 +27,34 @@ namespace Q19
             mouseLook.SetCursorLock(true);
         }
 
-        // input variables
-        private float fwd;
-
-        private float[] _rotationMemory = new float[20];
-
 
         public virtual void Update()
         {
-            // Here the sample gets input from the player
-            fwd = (Input.GetKey(KeyCode.W) ? 1 : 0) - (Input.GetKey(KeyCode.S) ? 1 : 0);
-            //strafe = (Input.GetKey(KeyCode.D) ? 1 : 0) - (Input.GetKey(KeyCode.A) ? 1 : 0);
-            //swim = (Input.GetKey(KeyCode.Space) ? 1 : 0) - (Input.GetKey(KeyCode.C) ? 1 : 0);
-            //jump = Input.GetKeyDown(KeyCode.Space);
-            //sprint = Input.GetKey(KeyCode.LeftShift);
-
-
-            // these inputs are fed into the controller
-            // this is the main entry point for the controller
-            retroController.Velocity = transform.forward * retroController.Velocity.magnitude;
-            retroController.SetInput(fwd, 0, 0, false, false, false);
-
             if (Input.GetKeyDown(KeyCode.Escape))
             {
                 mouseLook.SetCursorLock(!mouseLook.lockCursor);
                 retroController.updateController = !retroController.updateController;
             }
+
+            // Here the sample gets input from the player
+            //var fwd = (Input.GetKey(KeyCode.W) ? 1 : 0) - (Input.GetKey(KeyCode.S) ? 1 : 0);
+            //var slow = - (Input.GetKey(KeyCode.S) ? 1 : 0);
+            //strafe = (Input.GetKey(KeyCode.D) ? 1 : 0) - (Input.GetKey(KeyCode.A) ? 1 : 0);
+            //swim = (Input.GetKey(KeyCode.Space) ? 1 : 0) - (Input.GetKey(KeyCode.C) ? 1 : 0);
+            var boost = Input.GetKeyDown(KeyCode.Space);
+            //sprint = Input.GetKey(KeyCode.LeftShift);
+
+            var speed = 0f;
+            if (boost)
+            {
+                speed = 0.5f;
+            }
+
+            // these inputs are fed into the controller
+            // this is the main entry point for the controller
+            retroController.Velocity =
+                transform.forward * retroController.Velocity.magnitude + transform.forward * speed;
+            retroController.SetInput(0, 0, 0, false, false, false);
 
             var turnStrength = turnStrengthCurve.Evaluate(retroController.Velocity.magnitude / retroController.Profile.MaxGroundSpeed);
             //Debug.Log(turnStrength);
