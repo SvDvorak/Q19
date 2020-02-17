@@ -37,29 +37,33 @@ namespace Q19
             }
 
             // Here the sample gets input from the player
-            //var fwd = (Input.GetKey(KeyCode.W) ? 1 : 0) - (Input.GetKey(KeyCode.S) ? 1 : 0);
+            var fwd = (Input.GetKey(KeyCode.W) ? 1 : 0) - (Input.GetKey(KeyCode.S) ? 1 : 0);
             //var slow = - (Input.GetKey(KeyCode.S) ? 1 : 0);
-            //strafe = (Input.GetKey(KeyCode.D) ? 1 : 0) - (Input.GetKey(KeyCode.A) ? 1 : 0);
+            var strafe = (Input.GetKey(KeyCode.D) ? 1 : 0) - (Input.GetKey(KeyCode.A) ? 1 : 0);
             //swim = (Input.GetKey(KeyCode.Space) ? 1 : 0) - (Input.GetKey(KeyCode.C) ? 1 : 0);
             var boost = Input.GetKeyDown(KeyCode.Space);
             //sprint = Input.GetKey(KeyCode.LeftShift);
 
             var speed = 0f;
-            if (boost)
+            var move = Vector3.zero;
+            if (boost && (fwd != 0 || strafe != 0))
             {
+                move = fwd * transform.forward + strafe * transform.right;
                 speed = 0.5f;
             }
 
             // these inputs are fed into the controller
             // this is the main entry point for the controller
-            retroController.Velocity =
-                transform.forward * retroController.Velocity.magnitude + transform.forward * speed;
+            //retroController.Velocity =
+            //    transform.forward * retroController.Velocity.magnitude + transform.forward * speed;
+            var mid = Vector3.Dot(transform.forward, retroController.Velocity.normalized);
+            //Debug.Log($"Forward { transform.forward }   Velocity { retroController.Velocity.normalized }");
+            var mag = retroController.Velocity.magnitude;
+            retroController.Velocity = mag * Vector3.RotateTowards(retroController.Velocity.normalized, transform.forward, 1 * Time.deltaTime, 1);
+            retroController.Velocity += move * 0.3f;
             retroController.SetInput(0, 0, 0, false, false, false);
 
-            var turnStrength = turnStrengthCurve.Evaluate(retroController.Velocity.magnitude / retroController.Profile.MaxGroundSpeed);
-            //Debug.Log(turnStrength);
-
-            mouseLook.LookRotation(transform, playerView, turnStrength);
+            mouseLook.LookRotation(transform, playerView);
             mouseLook.UpdateCursorLock();
 
 
