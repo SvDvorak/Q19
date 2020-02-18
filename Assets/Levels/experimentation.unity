@@ -565,6 +565,31 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 14576415502579367, guid: 625045d416627ec4283dbd5bc7189539,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 14576415502579367, guid: 625045d416627ec4283dbd5bc7189539,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 14576415502579367, guid: 625045d416627ec4283dbd5bc7189539,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 14576415502579367, guid: 625045d416627ec4283dbd5bc7189539,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 14576415502579367, guid: 625045d416627ec4283dbd5bc7189539,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 122746750268410563, guid: 625045d416627ec4283dbd5bc7189539,
         type: 3}
       propertyPath: Boost.RotationKick.m_Curve.Array.size
@@ -2540,6 +2565,16 @@ PrefabInstance:
       propertyPath: playerView
       value: 
       objectReference: {fileID: 901384971}
+    - target: {fileID: 123298237816880877, guid: 625045d416627ec4283dbd5bc7189539,
+        type: 3}
+      propertyPath: roll.angle
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 123298237816880877, guid: 625045d416627ec4283dbd5bc7189539,
+        type: 3}
+      propertyPath: roll.enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4291616835280691516, guid: 625045d416627ec4283dbd5bc7189539,
         type: 3}
       propertyPath: BoostCurve.m_Curve.Array.size
