@@ -60,6 +60,27 @@ https://github.com/keijiro/Retro3D
 https://github.com/keijiro/Retro3DPipeline
 
 
+
+---------------
+Movement
+---------------
+
+Racing like
+Forward accelerates, slower turn when higher speed, locks turn amount. For example can turn 60 degrees/second when standing still but at full speed can only turn 30 degrees/second.
+Does not feel good, very locked in when hitting edges of turnspeed.
+
+Camera lock & boost forward
+Spacebar does single frame boost, camera follows mouse ie no limit on turning. Friction slows player down so must boost intermittently.
+Feels much better, can go pretty fast where the limit is just the player. And this is without shooting & enemies!
+
++ Strafe boost
+Added a strafe boost that adds pushes player to either side while still locking camera to forward movement. It works but it feels more complicated for a very small benefit, it's just easier to use camera to slalom around objects.
+
+Boost direction
+Spacebar still does single frame boost BUT camera does not follow mouse completely, boost can realign move direction but mouse just slowly turns. It works somewhat but you don't feel as much in control as when camera is locked. You can do some cool maneuvers like going around a corner in a parapolic arc while still looking at the corner (as movement tries to align with camera, creating the arc).
+
+
+
 ---------------
 Unity prototype
 ---------------

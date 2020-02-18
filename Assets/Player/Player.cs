@@ -17,6 +17,8 @@ namespace Q19
         public MouseLook mouseLook;             // mouse look
         public Transform playerView;            // the controller view
         public AnimationCurve turnStrengthCurve;
+        public float MoveSpeed;
+        public Vector3 StrafeBoost;
 
         [Space, Tooltip("Switch to ducking and standing by pressing once instead of holding")]
         public bool toggleDucking;
@@ -27,6 +29,9 @@ namespace Q19
             mouseLook.SetCursorLock(true);
         }
 
+        public virtual void FixedUpdate()
+        {
+        }
 
         public virtual void Update()
         {
@@ -44,23 +49,29 @@ namespace Q19
             var boost = Input.GetKeyDown(KeyCode.Space);
             //sprint = Input.GetKey(KeyCode.LeftShift);
 
-            var speed = 0f;
-            var move = Vector3.zero;
-            if (boost && (fwd != 0 || strafe != 0))
+            //var move = Vector3.zero;
+            if (boost)
             {
-                move = fwd * transform.forward + strafe * transform.right;
-                speed = 0.5f;
+                //move = fwd * transform.forward + strafe * transform.right;
+                if (fwd != 0)
+                {
+                    MoveSpeed += 30f;
+                }
+                else if(strafe != 0)
+                {
+                    StrafeBoost = transform.right * strafe * 60f;
+                }
             }
 
-            // these inputs are fed into the controller
-            // this is the main entry point for the controller
             //retroController.Velocity =
-            //    transform.forward * retroController.Velocity.magnitude + transform.forward * speed;
-            var mid = Vector3.Dot(transform.forward, retroController.Velocity.normalized);
-            //Debug.Log($"Forward { transform.forward }   Velocity { retroController.Velocity.normalized }");
-            var mag = retroController.Velocity.magnitude;
-            retroController.Velocity = mag * Vector3.RotateTowards(retroController.Velocity.normalized, transform.forward, 1 * Time.deltaTime, 1);
-            retroController.Velocity += move * 0.3f;
+            //    transform.forward * retroController.Velocity.magnitude + transform.forward * boostIncrease + StrafeBoost * Time.fixedDeltaTime;
+            retroController.Velocity =
+                transform.forward * MoveSpeed * Time.fixedDeltaTime + StrafeBoost * Time.fixedDeltaTime;
+            MoveSpeed *= 1 - retroController.Profile.GroundFriction * Time.fixedDeltaTime;
+            StrafeBoost *= 1 - 0.8f * Time.fixedDeltaTime;
+            //var mag = retroController.Velocity.magnitude;
+            //retroController.Velocity = mag * Vector3.RotateTowards(retroController.Velocity.normalized, transform.forward, 1 * Time.deltaTime, 1);
+            //retroController.Velocity += move * 0.3f;
             retroController.SetInput(0, 0, 0, false, false, false);
 
             mouseLook.LookRotation(transform, playerView);
