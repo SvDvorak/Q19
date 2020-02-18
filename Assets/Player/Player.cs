@@ -23,6 +23,8 @@ namespace Q19
         [Space, Tooltip("Switch to ducking and standing by pressing once instead of holding")]
         public bool toggleDucking;
 
+        private bool _boost;
+
         private void Awake()
         {
             mouseLook.Init(transform, playerView);
@@ -31,6 +33,9 @@ namespace Q19
 
         public virtual void FixedUpdate()
         {
+            retroController.Velocity =
+                transform.forward * MoveSpeed * Time.fixedDeltaTime + StrafeBoost * Time.fixedDeltaTime;
+            MoveSpeed *= 1 - retroController.Profile.GroundFriction * Time.fixedDeltaTime;
         }
 
         public virtual void Update()
@@ -41,37 +46,18 @@ namespace Q19
                 retroController.updateController = !retroController.updateController;
             }
 
-            // Here the sample gets input from the player
-            var fwd = (Input.GetKey(KeyCode.W) ? 1 : 0) - (Input.GetKey(KeyCode.S) ? 1 : 0);
+            //var fwd = (Input.GetKey(KeyCode.W) ? 1 : 0) - (Input.GetKey(KeyCode.S) ? 1 : 0);
             //var slow = - (Input.GetKey(KeyCode.S) ? 1 : 0);
-            var strafe = (Input.GetKey(KeyCode.D) ? 1 : 0) - (Input.GetKey(KeyCode.A) ? 1 : 0);
+            //var strafe = (Input.GetKey(KeyCode.D) ? 1 : 0) - (Input.GetKey(KeyCode.A) ? 1 : 0);
             //swim = (Input.GetKey(KeyCode.Space) ? 1 : 0) - (Input.GetKey(KeyCode.C) ? 1 : 0);
-            var boost = Input.GetKeyDown(KeyCode.Space);
+            _boost = Input.GetKeyDown(KeyCode.Space);
             //sprint = Input.GetKey(KeyCode.LeftShift);
 
-            //var move = Vector3.zero;
-            if (boost)
+            if (_boost)
             {
-                //move = fwd * transform.forward + strafe * transform.right;
-                if (fwd != 0)
-                {
-                    MoveSpeed += 30f;
-                }
-                else if(strafe != 0)
-                {
-                    StrafeBoost = transform.right * strafe * 60f;
-                }
+                MoveSpeed += 30f;
             }
 
-            //retroController.Velocity =
-            //    transform.forward * retroController.Velocity.magnitude + transform.forward * boostIncrease + StrafeBoost * Time.fixedDeltaTime;
-            retroController.Velocity =
-                transform.forward * MoveSpeed * Time.fixedDeltaTime + StrafeBoost * Time.fixedDeltaTime;
-            MoveSpeed *= 1 - retroController.Profile.GroundFriction * Time.fixedDeltaTime;
-            StrafeBoost *= 1 - 0.8f * Time.fixedDeltaTime;
-            //var mag = retroController.Velocity.magnitude;
-            //retroController.Velocity = mag * Vector3.RotateTowards(retroController.Velocity.normalized, transform.forward, 1 * Time.deltaTime, 1);
-            //retroController.Velocity += move * 0.3f;
             retroController.SetInput(0, 0, 0, false, false, false);
 
             mouseLook.LookRotation(transform, playerView);
