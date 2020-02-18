@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using DG.Tweening;
+using UnityEngine;
 using vnc;
 
 namespace Q19
@@ -15,15 +16,11 @@ namespace Q19
         public RetroController retroController; // the controller used
         public RetroControllerView retroView;
         public MouseLook mouseLook;             // mouse look
-        public Transform playerView;            // the controller view
-        public AnimationCurve turnStrengthCurve;
-        public float MoveSpeed;
-        public Vector3 StrafeBoost;
-
-        [Space, Tooltip("Switch to ducking and standing by pressing once instead of holding")]
-        public bool toggleDucking;
-
-        private bool _boost;
+        public Camera playerView;            // the controller view
+        public AnimationCurve BoostCurve;
+        private float _moveSpeed;
+        private float _acceleration;
+        private float _boostTime = 0.3f;
 
         private void Awake()
         {
@@ -33,9 +30,10 @@ namespace Q19
 
         public virtual void FixedUpdate()
         {
-            retroController.Velocity =
-                transform.forward * MoveSpeed * Time.fixedDeltaTime + StrafeBoost * Time.fixedDeltaTime;
-            MoveSpeed *= 1 - retroController.Profile.GroundFriction * Time.fixedDeltaTime;
+            var accelerationSpeed = _acceleration > 0 ? BoostCurve.Evaluate(_acceleration) / _boostTime : 0;
+            _moveSpeed = (_moveSpeed + accelerationSpeed) *
+                         (1 - retroController.Profile.GroundFriction * Time.fixedDeltaTime);
+            retroController.Velocity = transform.forward * _moveSpeed * Time.fixedDeltaTime;
         }
 
         public virtual void Update()
@@ -50,12 +48,21 @@ namespace Q19
             //var slow = - (Input.GetKey(KeyCode.S) ? 1 : 0);
             //var strafe = (Input.GetKey(KeyCode.D) ? 1 : 0) - (Input.GetKey(KeyCode.A) ? 1 : 0);
             //swim = (Input.GetKey(KeyCode.Space) ? 1 : 0) - (Input.GetKey(KeyCode.C) ? 1 : 0);
-            _boost = Input.GetKeyDown(KeyCode.Space);
+            var boost = Input.GetKeyDown(KeyCode.Space);
             //sprint = Input.GetKey(KeyCode.LeftShift);
+            var DEBUGStop = Input.GetKeyDown(KeyCode.LeftControl);
 
-            if (_boost)
+
+            if (boost)
             {
-                MoveSpeed += 30f;
+                //_moveSpeed += 30f;
+                DOTween.To(() => _acceleration, x => _acceleration = x, 1, _boostTime).OnComplete(() => _acceleration = 0);
+                mouseLook.DoBoostKick();
+            }
+
+            if (DEBUGStop)
+            {
+                _moveSpeed = 0;
             }
 
             retroController.SetInput(0, 0, 0, false, false, false);
