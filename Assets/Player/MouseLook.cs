@@ -23,14 +23,6 @@ namespace Q19
         [DebugGUIGraph(min: -10, max: 10, r: 0, g: 1, b: 0, autoScale: true)]
         private float _tilt;
 
-        private int _tiltSamplesMax = 20;
-        private int _tiltSamples;
-
-        public void Awake()
-        {
-            DebugGUI.SetGraphProperties("tiltsamples", "Tilt Samples", -2, 2, 0, new Color(1, 0, 0), true);
-        }
-
         public void Init(Transform character, Camera camera)
         {
             _characterTargetRot = character.localRotation;
@@ -56,37 +48,15 @@ namespace Q19
             var tmp = _characterTargetRot * Quaternion.Inverse(character.localRotation);
             var angle = tmp.eulerAngles.y % 360;
             deltaRotation = angle > 180 ? angle - 360 : angle;
-            CumulativeMovingAverage(-deltaRotation);//_tilt = (_tilt - deltaRotation * 0.1f) * 0.8f);
+            // Cumulative moving average
+            const int tiltSamples = 20;
+            _tilt += (-deltaRotation - _tilt) / (tiltSamples + 1);
 
             character.localRotation = _characterTargetRot;
             var rotationKick = Quaternion.Euler(Boost.RotationKick.Evaluate(_kick), 0, 0);
-            var b = _tiltSamples > _tiltSamplesMax;
-            DebugGUI.Graph("tiltsamples", b ? 1 : 0);
-            var turnTilt = Quaternion.Euler(0, 0, b ? _tilt * 5 : 0);
+            var turnTilt = Quaternion.Euler(0, 0, _tilt * 5);
             camera.transform.localRotation = _cameraTargetRot * rotationKick * turnTilt;
             camera.fieldOfView = _initialFov + Boost.FOVKick.Evaluate(_kick);
-        }
-
-        void CumulativeMovingAverage(float tiltThisFrame)
-        {
-            _tiltSamples++;
-
-            //This will calculate the MovingAverage AFTER the very first value of the MovingAverage
-            if (_tiltSamples > _tiltSamplesMax)
-            {
-                _tilt += (tiltThisFrame - _tilt) / (_tiltSamplesMax + 1);
-            }
-            else
-            {
-                //NOTE: The MovingAverage will not have a value until at least "MovingAverageLength" values are known
-                _tilt += tiltThisFrame;
-
-                //This will calculate ONLY the very first value of the MovingAverage,
-                if (_tiltSamples == _tiltSamplesMax)
-                {
-                    _tilt = _tilt / _tiltSamples;
-                }
-            }
         }
 
         public void DoBoostKick()
