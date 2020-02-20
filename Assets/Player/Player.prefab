@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 93012522}
   - component: {fileID: 93012523}
-  m_Layer: 2
+  m_Layer: 1
   m_Name: Spot Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -80,7 +80,7 @@ Light:
   m_RenderMode: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 2
   m_RenderingLayerMask: 1
   m_Lightmapping: 4
   m_LightShadowCasterMode: 0
@@ -745,10 +745,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 14434198805294161}
+  - component: {fileID: 6841163397335925443}
   - component: {fileID: 122844695021247461}
   - component: {fileID: 123298237816880877}
   - component: {fileID: 122746750268410563}
   - component: {fileID: 4291616835280691516}
+  - component: {fileID: 375110166}
   m_Layer: 2
   m_Name: Player
   m_TagString: Player
@@ -774,6 +776,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+--- !u!114 &6841163397335925443
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 10641010958622155}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28bd8be7de6c0a848b601c3aa44103ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &122844695021247461
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -787,7 +801,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Profile: {fileID: 11400000, guid: 29062c9b92f26d549b318cba4adeee80, type: 2}
-  controllerView: {fileID: 0}
+  controllerView: {fileID: 14576415502579367}
   localViewPosition: {x: 0, y: 0, z: 0}
   inputDir: {x: 0, y: 0}
   Velocity: {x: 1.7202362e-21, y: 0, z: 1.4264959e-21}
@@ -820,7 +834,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controllerCamera: {fileID: 14576415502579367}
-  playerView: {fileID: 0}
+  playerView: {fileID: 14576415502579367}
   bob:
     enabled: 0
     whenMovingOnly: 1
@@ -830,7 +844,7 @@ MonoBehaviour:
     currentPosition: {x: 0, y: 0, z: 0}
     cycle: 38.16532
   roll:
-    enabled: 1
+    enabled: 0
     angle: 3
     speed: 8
     currentAngle: -0.000000010904127
@@ -854,6 +868,200 @@ MonoBehaviour:
   clampVerticalRotation: 1
   MinimumX: -85
   MaximumX: 85
+  Boost:
+    Time: 1
+    RotationKick:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: -1.7411186
+        outSlope: -1.7411186
+        tangentMode: 35
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.065056935
+        value: -0.11327183
+        inSlope: -7.384303
+        outSlope: -7.384303
+        tangentMode: 35
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.12563013
+        value: -0.90238833
+        inSlope: -25.824398
+        outSlope: -25.824398
+        tangentMode: 35
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.22504938
+        value: -4.7420897
+        inSlope: -36.04088
+        outSlope: -36.04088
+        tangentMode: 3
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.27115995
+        value: -6.2849703
+        inSlope: -20.604076
+        outSlope: -20.604076
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.42610335
+        value: -7.485425
+        inSlope: 3.0419126
+        outSlope: 3.0419126
+        tangentMode: 35
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.5563966
+        value: -5.683271
+        inSlope: 22.393196
+        outSlope: 22.393196
+        tangentMode: 35
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.6928888
+        value: -1.4581728
+        inSlope: 25.010067
+        outSlope: 25.010067
+        tangentMode: 35
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.8508661
+        value: 1.5537057
+        inSlope: 4.2548857
+        outSlope: 4.2548857
+        tangentMode: 35
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 1.0012428
+        value: -0.033594072
+        inSlope: -10.555492
+        outSlope: -10.555492
+        tangentMode: 35
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    FOVKick:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: -2.4062119
+        outSlope: -2.4062119
+        tangentMode: 35
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.065056935
+        value: -0.15654077
+        inSlope: -10.205048
+        outSlope: -10.205048
+        tangentMode: 35
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.12563013
+        value: -1.2470934
+        inSlope: -35.68911
+        outSlope: -35.68911
+        tangentMode: 35
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.22504938
+        value: -6.55353
+        inSlope: -49.808205
+        outSlope: -49.808205
+        tangentMode: 3
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.27115995
+        value: -8.685779
+        inSlope: -28.474663
+        outSlope: -28.474663
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.42610335
+        value: -10.344797
+        inSlope: 4.2038994
+        outSlope: 4.2038994
+        tangentMode: 35
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.5563966
+        value: -7.8542347
+        inSlope: 30.947216
+        outSlope: 30.947216
+        tangentMode: 35
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.6928888
+        value: -2.0151832
+        inSlope: 29.695204
+        outSlope: 29.695204
+        tangentMode: 35
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.8439394
+        value: 0.4939227
+        inSlope: 6.5879736
+        outSlope: 6.5879736
+        tangentMode: 35
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 1.0012428
+        value: -0.04642674
+        inSlope: -3.4350793
+        outSlope: -3.4350793
+        tangentMode: 35
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
 --- !u!114 &4291616835280691516
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -867,9 +1075,82 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   retroController: {fileID: 122844695021247461}
-  retroView: {fileID: 0}
+  retroView: {fileID: 123298237816880877}
   mouseLook: {fileID: 122746750268410563}
-  playerView: {fileID: 0}
+  playerView: {fileID: 28275495884675581}
+  BoostCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: -0.0014533997
+      value: 0.29979184
+      inSlope: 1.5814277
+      outSlope: 1.5814277
+      tangentMode: 3
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.22707912
+      value: 0.6611995
+      inSlope: 1.2326732
+      outSlope: 1.2326732
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.6054098
+      value: 0.9956131
+      inSlope: 0.07590169
+      outSlope: 0.07590169
+      tangentMode: 35
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.7864499
+      value: 0.86307085
+      inSlope: -1.7430162
+      outSlope: -1.7430162
+      tangentMode: 35
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.91728836
+      value: 0.5027526
+      inSlope: -4.4173
+      outSlope: -4.4173
+      tangentMode: 35
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.9999848
+      value: -0.000098227305
+      inSlope: -6.080683
+      outSlope: -6.080683
+      tangentMode: 35
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!114 &375110166
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 10641010958622155}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bced14357961ff04db6cdd7689194a4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  graphicsObject: {fileID: 10566416943779685}
 --- !u!1 &10645234459286373
 GameObject:
   m_ObjectHideFlags: 0
@@ -1277,6 +1558,7 @@ GameObject:
   m_Component:
   - component: {fileID: 14576415502579367}
   - component: {fileID: 28275495884675581}
+  - component: {fileID: 7958048301101015641}
   - component: {fileID: 115454529713503841}
   - component: {fileID: 73014072102089183}
   m_Layer: 2
@@ -1293,7 +1575,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 10958170122690877}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1, z: 0.06}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -1343,6 +1625,18 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!114 &7958048301101015641
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 10958170122690877}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b3eace6c34513047baaa44eee60ada5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!124 &115454529713503841
 Behaviour:
   m_ObjectHideFlags: 0
@@ -2066,7 +2360,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1649651013884186246}
   - component: {fileID: 7637293264592088902}
-  m_Layer: 2
+  m_Layer: 1
   m_Name: Gun Camera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2122,7 +2416,7 @@ Camera:
     serializedVersion: 2
     m_Bits: 2
   m_RenderingPath: -1
-  m_TargetTexture: {fileID: 0}
+  m_TargetTexture: {fileID: 8400000, guid: f05442ce7244fb14d9b11fcfa1029195, type: 2}
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 1

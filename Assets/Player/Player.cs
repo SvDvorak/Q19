@@ -26,6 +26,17 @@ namespace Q19
         {
             mouseLook.Init(transform, playerView);
             mouseLook.SetCursorLock(true);
+            retroController.OnTeleport += OnTeleport;
+        }
+
+        private void OnDestroy()
+        {
+            retroController.OnTeleport -= OnTeleport;
+        }
+
+        private void OnTeleport(Vector3 position, Quaternion rotation)
+        {
+            mouseLook.RealignRotation(rotation);
         }
 
         public virtual void FixedUpdate()
@@ -33,6 +44,7 @@ namespace Q19
             var accelerationSpeed = _acceleration > 0 ? BoostCurve.Evaluate(_acceleration) / _boostTime : 0;
             _moveSpeed = (_moveSpeed + accelerationSpeed) *
                          (1 - retroController.Profile.GroundFriction * Time.fixedDeltaTime);
+            //retroController.Velocity = transform.forward * 5 * Time.fixedDeltaTime;
             retroController.Velocity = transform.forward * _moveSpeed * Time.fixedDeltaTime;
         }
 
@@ -74,5 +86,4 @@ namespace Q19
             Time.timeScale = retroController.updateController ? 1 : 0;
         }
     }
-
 }

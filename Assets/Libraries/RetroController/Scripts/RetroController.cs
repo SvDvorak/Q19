@@ -121,6 +121,8 @@ namespace vnc
             OnLandingCallback,
             OnFixedUpdateEndCallback;
 
+        public event Action<Vector3, Quaternion> OnTeleport;
+
         /// <summary>
         /// Position of the controller after each Fixed Update
         /// </summary>
@@ -1163,12 +1165,16 @@ namespace vnc
         /// any position in world space
         /// </summary>
         /// <param name="resetVelocity">Set velocity to 0.</param>
-        public void TeleportTo(Vector3 worldPosition, bool resetVelocity = true)
+        public void TeleportTo(Vector3 worldPosition, Quaternion rotation, bool resetVelocity = true)
         {
             FixedPosition = worldPosition;
+            _rigidbody.velocity = rotation * Quaternion.Inverse(_rigidbody.rotation) * _rigidbody.velocity;
             _rigidbody.position = FixedPosition;
+            _rigidbody.rotation = rotation;
             if (resetVelocity)
                 Velocity = Vector3.zero;
+
+            OnTeleport?.Invoke(worldPosition, rotation);
         }
 
         /// <summary>

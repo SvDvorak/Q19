@@ -99,6 +99,11 @@ namespace Q19
 
             return q;
         }
+
+        public void RealignRotation(Quaternion turn)
+        {
+            _characterTargetRot = turn;
+        }
     }
 
     [Serializable]
