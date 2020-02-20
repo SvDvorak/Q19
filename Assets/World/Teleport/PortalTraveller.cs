@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace Assets.World.Teleport
 {
+    [RequireComponent(typeof(Rigidbody))]
     public class PortalTraveller : MonoBehaviour
     {
 
@@ -13,12 +14,17 @@ namespace Assets.World.Teleport
         public Material[] originalMaterials { get; set; }
         public Material[] cloneMaterials { get; set; }
 
-        public Rigidbody Rigidbody { get; set; }
+        public Rigidbody travellerRigidbody { get; set; }
+
+        public virtual void Start()
+        {
+            travellerRigidbody = GetComponent<Rigidbody>();
+        }
 
         public virtual void Teleport(Transform fromPortal, Transform toPortal, Vector3 pos, Quaternion rot)
         {
-            transform.position = pos;
-            transform.rotation = rot;
+            travellerRigidbody.position = pos;
+            travellerRigidbody.rotation = rot;
         }
 
         // Called when first touches portal

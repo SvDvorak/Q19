@@ -43,18 +43,18 @@ namespace Assets.World.Teleport {
 
             for (int i = 0; i < trackedTravellers.Count; i++) {
                 PortalTraveller traveller = trackedTravellers[i];
-                Transform travellerT = traveller.transform;
-                var m = linkedPortal.transform.localToWorldMatrix * transform.worldToLocalMatrix * travellerT.localToWorldMatrix;
+                var travellerRb = traveller.travellerRigidbody;
+                var m = linkedPortal.transform.localToWorldMatrix * transform.worldToLocalMatrix * travellerRb.transform.localToWorldMatrix;
                 var portalPosition = m.GetColumn(3);
                 var portalRotation = m.rotation;
 
-                Vector3 offsetFromPortal = travellerT.position - transform.position;
+                Vector3 offsetFromPortal = travellerRb.position - transform.position;
                 int portalSide = System.Math.Sign (Vector3.Dot (offsetFromPortal, transform.forward));
                 int portalSideOld = System.Math.Sign (Vector3.Dot (traveller.previousOffsetFromPortal, transform.forward));
                 // Teleport the traveller if it has crossed from one side of the portal to the other
                 if (portalSide != portalSideOld) {
-                    var positionOld = travellerT.position;
-                    var rotOld = travellerT.rotation;
+                    var positionOld = travellerRb.position;
+                    var rotOld = travellerRb.rotation;
                     traveller.Teleport (transform, linkedPortal.transform, portalPosition, portalRotation);
                     traveller.graphicsClone.transform.SetPositionAndRotation (positionOld, rotOld);
                     // Can't rely on OnTriggerEnter/Exit to be called next frame since it depends on when FixedUpdate runs
@@ -151,7 +151,7 @@ namespace Assets.World.Teleport {
             float screenThickness = linkedPortal.ProtectScreenFromClipping (portalCam.transform.position);
 
             foreach (var traveller in trackedTravellers) {
-                if (SameSideOfPortal (traveller.transform.position, portalCamPos)) {
+                if (SameSideOfPortal (traveller.travellerRigidbody.position, portalCamPos)) {
                     // Addresses issue 1
                     traveller.SetSliceOffsetDst (hideDst, false);
                 } else {
@@ -160,7 +160,7 @@ namespace Assets.World.Teleport {
                 }
 
                 // Ensure clone is properly sliced, in case it's visible through this portal:
-                int cloneSideOfLinkedPortal = -SideOfPortal (traveller.transform.position);
+                int cloneSideOfLinkedPortal = -SideOfPortal (traveller.travellerRigidbody.position);
                 bool camSameSideAsClone = linkedPortal.SideOfPortal (portalCamPos) == cloneSideOfLinkedPortal;
                 if (camSameSideAsClone) {
                     traveller.SetSliceOffsetDst (screenThickness, true);
@@ -183,7 +183,7 @@ namespace Assets.World.Teleport {
                 }
 
                 // Ensure traveller of linked portal is properly sliced, in case it's visible through this portal:
-                bool camSameSideAsTraveller = linkedPortal.SameSideOfPortal (linkedTraveller.transform.position, portalCamPos);
+                bool camSameSideAsTraveller = linkedPortal.SameSideOfPortal (linkedTraveller.travellerRigidbody.position, portalCamPos);
                 if (camSameSideAsTraveller) {
                     linkedTraveller.SetSliceOffsetDst (screenThickness, false);
                 } else {
@@ -219,7 +219,7 @@ namespace Assets.World.Teleport {
             float halfWidth = halfHeight * playerCam.aspect;
             float dstToNearClipPlaneCorner = new Vector3 (halfWidth, halfHeight, playerCam.nearClipPlane).magnitude;
             //float screenThickness = dstToNearClipPlaneCorner;
-            var screenThickness = 3f;
+            var screenThickness = 1f;
 
             Transform screenT = screen.transform;
             if (_justGotTeleportedTo == 1)
@@ -233,7 +233,7 @@ namespace Assets.World.Teleport {
 
         void UpdateSliceParams (PortalTraveller traveller) {
             // Calculate slice normal
-            int side = SideOfPortal (traveller.transform.position);
+            int side = SideOfPortal (traveller.travellerRigidbody.position);
             Vector3 sliceNormal = transform.forward * -side;
             Vector3 cloneSliceNormal = linkedPortal.transform.forward * side;
 
@@ -246,7 +246,7 @@ namespace Assets.World.Teleport {
             float cloneSliceOffsetDst = 0;
             float screenThickness = screen.transform.localScale.z;
 
-            bool playerSameSideAsTraveller = SameSideOfPortal (playerCam.transform.position, traveller.transform.position);
+            bool playerSameSideAsTraveller = SameSideOfPortal (playerCam.transform.position, traveller.travellerRigidbody.position);
             if (!playerSameSideAsTraveller) {
                 sliceOffsetDst = -screenThickness;
             }
@@ -304,7 +304,7 @@ namespace Assets.World.Teleport {
         void OnTriggerEnter (Collider other) {
             var traveller = other.GetComponent<PortalTraveller> ();
             if (traveller) {
-                OnTravellerEnterPortal (traveller, traveller.transform.position);
+                OnTravellerEnterPortal (traveller, traveller.travellerRigidbody.position);
             }
         }
 
