@@ -1,16 +1,10 @@
-﻿using DG.Tweening;
+﻿using System;
+using DG.Tweening;
 using UnityEngine;
 using vnc;
 
 namespace Q19
 {
-    /// <summary>
-    /// This is a sample class to illustrate how you 
-    /// give input commands to the controller.
-    /// 
-    /// This class is supposed to be a learning example and
-    /// it's not recommended to be used in a final product.
-    /// </summary>
     public class Player : MonoBehaviour
     {
         public RetroController retroController; // the controller used
@@ -18,6 +12,7 @@ namespace Q19
         public MouseLook mouseLook;             // mouse look
         public Camera playerView;            // the controller view
         public AnimationCurve BoostCurve;
+        [DebugGUIGraph(min: 0, max: 50, r: 0, g: 1, b: 0, autoScale: true)]
         private float _moveSpeed;
         private float _acceleration;
         private float _boostTime = 0.3f;
@@ -77,9 +72,10 @@ namespace Q19
                 _moveSpeed = 0;
             }
 
+
             retroController.SetInput(0, 0, 0, false, false, false);
 
-            mouseLook.LookRotation(transform, playerView);
+            mouseLook.LookRotation(transform, playerView, _moveSpeed / 40);
             mouseLook.UpdateCursorLock();
 
 

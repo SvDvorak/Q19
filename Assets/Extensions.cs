@@ -1,13 +1,27 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using UnityEngine;
 
 namespace Assets
 {
-    public class Extensions
+    [Serializable]
+    public struct Limits
     {
-        //public static 
+        public float Min;
+        public float Max;
+
+        public float Diff => Max - Min;
+
+        public float Lerp(float step)
+        {
+            return Mathf.Lerp(Min, Max, step);
+        }
+    }
+
+    public static class Extensions
+    {
+        public static float Clamp(this float value, Limits limits)
+        {
+            return Mathf.Clamp(value, limits.Min, limits.Max);
+        }
     }
 }

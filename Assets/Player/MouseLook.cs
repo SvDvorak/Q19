@@ -1,15 +1,24 @@
 using System;
+using Assets;
 using DG.Tweening;
 using UnityEngine;
 
 namespace Q19
 {
+    [Serializable]
+    public struct BoostSettings
+    {
+        public float Time;
+        public AnimationCurve RotationKick;
+        public AnimationCurve FOVKick;
+    }
+
     public class MouseLook : MonoBehaviour
     {
         public float mouseSensitivity = 2f;
         public bool clampVerticalRotation = true;
-        public float MinimumX = -90F;
-        public float MaximumX = 90F;
+        public Limits XLimits;
+        public Limits FovLimits;
 
         [Header("Settings")]
         public BoostSettings Boost;
@@ -19,19 +28,16 @@ namespace Q19
         private Quaternion _characterTargetRot;
         private Quaternion _cameraTargetRot;
         private float _kick;
-        private float _initialFov;
-        [DebugGUIGraph(min: -10, max: 10, r: 0, g: 1, b: 0, autoScale: true)]
+
         private float _tilt;
 
         public void Init(Transform character, Camera camera)
         {
             _characterTargetRot = character.localRotation;
             _cameraTargetRot = camera.transform.localRotation;
-            _initialFov = camera.fieldOfView;
         }
 
-
-        public void LookRotation(Transform character, Camera camera)
+        public void LookRotation(Transform character, Camera camera, float speed)
         {
             if (!lockCursor)
                 return;
@@ -56,7 +62,7 @@ namespace Q19
             var rotationKick = Quaternion.Euler(Boost.RotationKick.Evaluate(_kick), 0, 0);
             var turnTilt = Quaternion.Euler(0, 0, _tilt * 5);
             camera.transform.localRotation = _cameraTargetRot * rotationKick * turnTilt;
-            camera.fieldOfView = _initialFov + Boost.FOVKick.Evaluate(_kick);
+            camera.fieldOfView = FovLimits.Lerp(speed); //FovLimits.Min + Boost.FOVKick.Evaluate(_kick);
         }
 
         public void DoBoostKick()
@@ -84,6 +90,11 @@ namespace Q19
             }
         }
 
+        public void RealignRotation(Quaternion turn)
+        {
+            _characterTargetRot = turn;
+        }
+
         Quaternion ClampRotationAroundXAxis(Quaternion q)
         {
             q.x /= q.w;
@@ -93,24 +104,11 @@ namespace Q19
 
             float angleX = 2.0f * Mathf.Rad2Deg * Mathf.Atan(q.x);
 
-            angleX = Mathf.Clamp(angleX, MinimumX, MaximumX);
+            angleX = Mathf.Clamp(angleX, XLimits.Min, XLimits.Max);
 
             q.x = Mathf.Tan(0.5f * Mathf.Deg2Rad * angleX);
 
             return q;
         }
-
-        public void RealignRotation(Quaternion turn)
-        {
-            _characterTargetRot = turn;
-        }
-    }
-
-    [Serializable]
-    public struct BoostSettings
-    {
-        public float Time;
-        public AnimationCurve RotationKick;
-        public AnimationCurve FOVKick;
     }
 }

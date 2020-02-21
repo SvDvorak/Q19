@@ -219,7 +219,7 @@ namespace Assets.World.Teleport {
             float halfWidth = halfHeight * playerCam.aspect;
             float dstToNearClipPlaneCorner = new Vector3 (halfWidth, halfHeight, playerCam.nearClipPlane).magnitude;
             //float screenThickness = dstToNearClipPlaneCorner;
-            var screenThickness = 1f;
+            var screenThickness = 3f;
 
             Transform screenT = screen.transform;
             if (_justGotTeleportedTo == 1)
