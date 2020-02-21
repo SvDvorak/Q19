@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using DG.Tweening;
 using DG.Tweening.Core;
 using DG.Tweening.Plugins.Options;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Assets.World.Teleport {
     public class Portal : MonoBehaviour {
@@ -15,6 +17,10 @@ namespace Assets.World.Teleport {
         [Header ("Advanced Settings")]
         public float nearClipOffset = 0.05f;
         public float nearClipLimit = 0.2f;
+
+        [Header("Events")]
+        public UnityEvent TravellerEntered;
+        public UnityEvent TravellerExited;
 
         // Private variables
         RenderTexture viewTexture;
@@ -63,6 +69,7 @@ namespace Assets.World.Teleport {
                     linkedPortal.JustGotTeleportedTo();
                     trackedTravellers.RemoveAt (i);
                     i--;
+                    TravellerExited.Invoke();
                 } else {
                     traveller.graphicsClone.transform.SetPositionAndRotation (portalPosition, portalRotation);
                     //UpdateSliceParams (traveller);
@@ -79,6 +86,7 @@ namespace Assets.World.Teleport {
                 _teleportThicknessSafety.Complete();
             _justGotTeleportedTo = 1;
             _teleportThicknessSafety = DOTween.To(() => _justGotTeleportedTo, x => _justGotTeleportedTo = x, 0, 0.5f);
+            TravellerEntered.Invoke();
         }
 
         // Called before any portal cameras are rendered for the current frame
