@@ -618,6 +618,16 @@ PrefabInstance:
       propertyPath: recursionLimit
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 8383421930481578081, guid: 948ac2fa275ec8d46878ca68b7e5553e,
+        type: 3}
+      propertyPath: ExitOnly
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9117070834717414753, guid: 948ac2fa275ec8d46878ca68b7e5553e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 948ac2fa275ec8d46878ca68b7e5553e, type: 3}
 --- !u!1001 &645031767
@@ -1010,6 +1020,54 @@ Transform:
   - {fileID: 154095551}
   m_Father: {fileID: 1878893146}
   m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &832704661
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 832704663}
+  - component: {fileID: 832704662}
+  m_Layer: 0
+  m_Name: DebugGUI
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &832704662
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 832704661}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 902b767a45c917245b420593501210c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  drawInBuild: 0
+  displayGraphs: 1
+  displayLogs: 1
+  backgroundColor: {r: 0, g: 0, b: 0, a: 0.7}
+  graphs: []
+--- !u!4 &832704663
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 832704661}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1063098199
 GameObject:
@@ -1486,6 +1544,16 @@ PrefabInstance:
       propertyPath: recursionLimit
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 8383421930481578081, guid: 948ac2fa275ec8d46878ca68b7e5553e,
+        type: 3}
+      propertyPath: ExitOnly
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9117070834717414753, guid: 948ac2fa275ec8d46878ca68b7e5553e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 948ac2fa275ec8d46878ca68b7e5553e, type: 3}
 --- !u!1001 &1512925722
@@ -1881,6 +1949,31 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 28275495884675581, guid: 625045d416627ec4283dbd5bc7189539,
+        type: 3}
+      propertyPath: field of view
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 122746750268410563, guid: 625045d416627ec4283dbd5bc7189539,
+        type: 3}
+      propertyPath: FovLimits.Min
+      value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 122746750268410563, guid: 625045d416627ec4283dbd5bc7189539,
+        type: 3}
+      propertyPath: FovLimits.Max
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 122746750268410563, guid: 625045d416627ec4283dbd5bc7189539,
+        type: 3}
+      propertyPath: XLimits.Min
+      value: -85
+      objectReference: {fileID: 0}
+    - target: {fileID: 122746750268410563, guid: 625045d416627ec4283dbd5bc7189539,
+        type: 3}
+      propertyPath: XLimits.Max
+      value: 85
       objectReference: {fileID: 0}
     - target: {fileID: 6119976817812782129, guid: 625045d416627ec4283dbd5bc7189539,
         type: 3}

@@ -10,6 +10,7 @@ namespace Assets.World.Teleport {
         public Portal linkedPortal;
         public MeshRenderer screen;
         public int recursionLimit = 5;
+        public bool ExitOnly;
 
         [Header ("Advanced Settings")]
         public float nearClipOffset = 0.05f;
@@ -35,7 +36,7 @@ namespace Assets.World.Teleport {
 
         void FixedUpdate () {
             // We may just have got a teleported person to us, must make sure that we don't teleport them again
-            if(_justGotTeleportedTo != 1)
+            if(!ExitOnly && _justGotTeleportedTo != 1)
                 HandleTravellers ();
         }
 
@@ -82,6 +83,9 @@ namespace Assets.World.Teleport {
 
         // Called before any portal cameras are rendered for the current frame
         public void PrePortalRender () {
+            if (ExitOnly)
+                return;
+
             foreach (var traveller in trackedTravellers) {
                 UpdateSliceParams (traveller);
             }
@@ -92,7 +96,7 @@ namespace Assets.World.Teleport {
         public void Render () {
 
             // Skip rendering the view from this portal if player is not looking at the linked portal
-            if (!CameraUtility.VisibleFromCamera (linkedPortal.screen, playerCam)) {
+            if (linkedPortal.ExitOnly || !CameraUtility.VisibleFromCamera (linkedPortal.screen, playerCam)) {
                 return;
             }
 
@@ -193,7 +197,11 @@ namespace Assets.World.Teleport {
         }
 
         // Called once all portals have been rendered, but before the player camera renders
-        public void PostPortalRender () {
+        public void PostPortalRender ()
+        {
+            if (ExitOnly)
+                return;
+
             foreach (var traveller in trackedTravellers) {
                 UpdateSliceParams (traveller);
             }
