@@ -28,6 +28,8 @@ namespace Q19
         private float _moveSpeed;
         private float _acceleration;
         private float _boostTime = 0.3f;
+        private Vector3 _moveForward;
+        private bool _lockedAimMove;
 
         private void Awake()
         {
@@ -52,7 +54,8 @@ namespace Q19
             _moveSpeed = (_moveSpeed + accelerationSpeed) *
                          (1 - retroController.Profile.GroundFriction * Time.fixedDeltaTime);
             //retroController.Velocity = transform.forward * 5 * Time.fixedDeltaTime;
-            retroController.Velocity = transform.forward * _moveSpeed * Time.fixedDeltaTime;
+            var moveDir = _lockedAimMove ? transform.forward : _moveForward;
+            retroController.Velocity = moveDir * _moveSpeed * Time.fixedDeltaTime;
 
             AddEnergy(Boost.IncreasePerSecond * Time.fixedDeltaTime);
         }
@@ -96,7 +99,7 @@ namespace Q19
             mouseLook.UpdateCursorLock();
 
 
-            Time.timeScale = retroController.updateController ? 1 : 0;
+            Time.timeScale = retroController.updateController ? Time.timeScale : 0;
         }
 
         private void AddEnergy(float amount)
@@ -107,6 +110,14 @@ namespace Q19
         public void AddKillEnergy()
         {
             AddEnergy(Boost.EnemyKillIncrease);
+        }
+
+        public void LockedAimMove(bool lockedAimMove)
+        {
+            if(!lockedAimMove && _lockedAimMove)
+                _moveForward = transform.forward;
+
+            _lockedAimMove = lockedAimMove;
         }
     }
 }

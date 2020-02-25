@@ -1,4 +1,5 @@
-[Aa]ssets/RetroController/
+[Aa]ssets/RetroController*
+[Aa]ssets/Libraries/SineVFX*
 
 # This .gitignore file should be placed at the root of your Unity project directory
 #

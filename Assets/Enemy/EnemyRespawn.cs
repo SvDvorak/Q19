@@ -16,6 +16,5 @@ public class EnemyRespawn : Respawnable
         _enemyDeath.EnemyModel.localScale = Vector3.one;
         _enemyDeath.EnemyModel.localPosition = Vector3.zero;
         _enemyDeath.transform.tag = "Hittable";
-        Debug.Log("RESPAWN!");
     }
 }
