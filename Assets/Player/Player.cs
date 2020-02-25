@@ -5,13 +5,25 @@ using vnc;
 
 namespace Q19
 {
+    [Serializable]
+    public class BoostSettings
+    {
+        public Transform BoostBar;
+        public float Energy;
+        public AnimationCurve BoostCurve;
+        public float ActivationCost;
+        public float IncreasePerSecond;
+        public float EnemyKillIncrease;
+    }
+
     public class Player : MonoBehaviour
     {
         public RetroController retroController; // the controller used
         public RetroControllerView retroView;
         public MouseLook mouseLook;             // mouse look
         public Camera playerView;            // the controller view
-        public AnimationCurve BoostCurve;
+        public BoostSettings Boost;
+
         [DebugGUIGraph(min: 0, max: 50, r: 0, g: 1, b: 0, autoScale: true)]
         private float _moveSpeed;
         private float _acceleration;
@@ -36,11 +48,13 @@ namespace Q19
 
         public virtual void FixedUpdate()
         {
-            var accelerationSpeed = _acceleration > 0 ? BoostCurve.Evaluate(_acceleration) / _boostTime : 0;
+            var accelerationSpeed = _acceleration > 0 ? Boost.BoostCurve.Evaluate(_acceleration) / _boostTime : 0;
             _moveSpeed = (_moveSpeed + accelerationSpeed) *
                          (1 - retroController.Profile.GroundFriction * Time.fixedDeltaTime);
             //retroController.Velocity = transform.forward * 5 * Time.fixedDeltaTime;
             retroController.Velocity = transform.forward * _moveSpeed * Time.fixedDeltaTime;
+
+            AddEnergy(Boost.IncreasePerSecond * Time.fixedDeltaTime);
         }
 
         public virtual void Update()
@@ -60,8 +74,9 @@ namespace Q19
             var DEBUGStop = Input.GetKeyDown(KeyCode.LeftControl);
 
 
-            if (boost)
+            if (boost && Boost.Energy >= Boost.ActivationCost)
             {
+                Boost.Energy -= Boost.ActivationCost;
                 //_moveSpeed += 30f;
                 DOTween.To(() => _acceleration, x => _acceleration = x, 1, _boostTime).OnComplete(() => _acceleration = 0);
                 mouseLook.DoBoostKick();
@@ -72,6 +87,8 @@ namespace Q19
                 _moveSpeed = 0;
             }
 
+            Boost.BoostBar.localScale = new Vector3(1, 1, Boost.Energy);
+
 
             retroController.SetInput(0, 0, 0, false, false, false);
 
@@ -80,6 +97,16 @@ namespace Q19
 
 
             Time.timeScale = retroController.updateController ? 1 : 0;
+        }
+
+        private void AddEnergy(float amount)
+        {
+            Boost.Energy = Mathf.Clamp(Boost.Energy + amount, 0, 1);
+        }
+
+        public void AddKillEnergy()
+        {
+            AddEnergy(Boost.EnemyKillIncrease);
         }
     }
 }

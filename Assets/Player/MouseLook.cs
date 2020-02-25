@@ -6,7 +6,7 @@ using UnityEngine;
 namespace Q19
 {
     [Serializable]
-    public struct BoostSettings
+    public struct BoostViewSettings
     {
         public float Time;
         public AnimationCurve RotationKick;
@@ -21,7 +21,7 @@ namespace Q19
         public Limits FovLimits;
 
         [Header("Settings")]
-        public BoostSettings Boost;
+        public BoostViewSettings Boost;
         public bool lockCursor { get; private set; }
         public float deltaRotation { get; private set; }
 
