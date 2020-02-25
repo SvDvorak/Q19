@@ -92,6 +92,14 @@ Spacebar still does single frame boost BUT camera does not follow mouse complete
 Unity prototype
 ---------------
 
+Packages used:
+- Volumetric 3D Lasers (MUST BE MANUALLY ADDED!)
+- DebugGUI
+- DOTween
+- Flames Of The Phoenix (particles)
+- RetroController
+- TextMesh Pro
+
 
 
 
