@@ -7,6 +7,7 @@ public class EnemyDeath : MonoBehaviour
 {
     public Transform EnemyModel;
     public ParticleSystem Gibs;
+    public ParticleSystem Blood;
 
     public void Kill()
     {
@@ -14,5 +15,6 @@ public class EnemyDeath : MonoBehaviour
         EnemyModel.DOLocalMoveY(1, 0.2f);
         transform.tag = "Untagged";
         Gibs.Play();
+        Blood.Play();
     }
 }

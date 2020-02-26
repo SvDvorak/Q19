@@ -14,6 +14,7 @@ namespace Q19
         public float Energy;
         public AnimationCurve BoostCurve;
         public float ActivationCost;
+        public float BoostTime;
         public float IncreasePerSecond;
         public float EnemyKillIncrease;
     }
@@ -25,13 +26,16 @@ namespace Q19
         public MouseLook mouseLook;             // mouse look
         public Camera playerView;            // the controller view
         public BoostSettings Boost;
+        public bool ForceLockAimMove;
+        public float Friction;
+        public float SlowMotionTimeScale;
+        public float FiringEnergyCost;
 
         [DebugGUIGraph(min: 0, max: 50, r: 0, g: 1, b: 0, autoScale: true)]
         private float _moveSpeed;
         private float _acceleration;
-        private float _boostTime = 0.3f;
         private Vector3 _moveForward;
-        private bool _lockedAimMove;
+        private bool _lockedAimMove = true;
         private Vector3 _boostMeasureInitialPos;
 
         public void Awake()
@@ -59,14 +63,17 @@ namespace Q19
 
         public virtual void FixedUpdate()
         {
-            var accelerationSpeed = _acceleration > 0 ? Boost.BoostCurve.Evaluate(_acceleration) / _boostTime : 0;
+            var accelerationSpeed = _acceleration > 0 ? Boost.BoostCurve.Evaluate(_acceleration) / Boost.BoostTime : 0;
             _moveSpeed = (_moveSpeed + accelerationSpeed) *
-                         (1 - retroController.Profile.GroundFriction * Time.fixedDeltaTime);
+                         (1 - Friction * Time.fixedDeltaTime);
             //retroController.Velocity = transform.forward * 5 * Time.fixedDeltaTime;
             var moveDir = _lockedAimMove ? transform.forward : _moveForward;
             retroController.Velocity = moveDir * _moveSpeed * Time.fixedDeltaTime;
 
-            ChangeEnergy(Boost.IncreasePerSecond * Time.fixedDeltaTime);
+            var boostChange = Boost.IncreasePerSecond;
+            if (Shooting.CurrentlyFiring)
+                boostChange = FiringEnergyCost;
+            ChangeEnergy(boostChange * Time.fixedDeltaTime);
         }
 
         public virtual void Update()
@@ -90,7 +97,7 @@ namespace Q19
             {
                 ChangeEnergy(-Boost.ActivationCost);
                 //_moveSpeed += 30f;
-                DOTween.To(() => _acceleration, x => _acceleration = x, 1, _boostTime).OnComplete(() => _acceleration = 0);
+                DOTween.To(() => _acceleration, x => _acceleration = x, 1, Boost.BoostTime).OnComplete(() => _acceleration = 0);
                 mouseLook.DoBoostKick();
             }
 
@@ -125,8 +132,11 @@ namespace Q19
 
         public void LockedAimMove(bool lockedAimMove)
         {
-            _moveForward = transform.forward;
-            _lockedAimMove = lockedAimMove;
+            if(!ForceLockAimMove)
+            {
+                _moveForward = transform.forward;
+                _lockedAimMove = lockedAimMove;
+            }
         }
     }
 }

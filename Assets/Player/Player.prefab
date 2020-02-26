@@ -1081,54 +1081,54 @@ MonoBehaviour:
       m_Curve:
       - serializedVersion: 3
         time: -0.0014533997
-        value: 0.18489161
-        inSlope: 0.9755177
-        outSlope: 0.9755177
+        value: 0.08770935
+        inSlope: 0.4630408
+        outSlope: 0.4630408
         tangentMode: 3
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 0.22707912
-        value: 0.40782914
-        inSlope: 0.7603854
-        outSlope: 0.7603854
+        value: 0.19352923
+        inSlope: 0.3609258
+        outSlope: 0.3609258
         tangentMode: 34
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 0.6054098
-        value: 0.6141151
-        inSlope: 0.046820596
-        outSlope: 0.046820596
+        value: 0.29144529
+        inSlope: 0.03020294
+        outSlope: 0.03020294
         tangentMode: 35
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 0.7864499
-        value: 0.53235525
-        inSlope: -1.0751951
-        outSlope: -1.0751951
+        time: 0.7947507
+        value: 0.25387913
+        inSlope: -0.5347543
+        outSlope: -0.5347543
         tangentMode: 35
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 0.91728836
-        value: 0.31008974
-        inSlope: -2.7248507
-        outSlope: -2.7248507
+        value: 0.1471361
+        inSlope: -1.3257616
+        outSlope: -1.3257616
         tangentMode: 35
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 0.9999848
-        value: -0.00009822774
-        inSlope: -3.750923
-        outSlope: -3.750923
+        value: -0.00009822811
+        inSlope: -1.7804193
+        outSlope: -1.7804193
         tangentMode: 35
         weightedMode: 0
         inWeight: 0.33333334
@@ -1137,8 +1137,12 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
     ActivationCost: 0.4
+    BoostTime: 0.3
     IncreasePerSecond: 0.2
     EnemyKillIncrease: 0.3
+  Friction: 0.3
+  SlowMotionTimeScale: 0.5
+  FiringEnergyCost: -0.2
 --- !u!114 &2342717550715931059
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11844,13 +11848,13 @@ MonoBehaviour:
     m_Curve:
     - serializedVersion: 3
       time: 0.00030517578
-      value: 0.9964256
-      inSlope: -2.6274421
-      outSlope: -2.6274421
+      value: 0.7497564
+      inSlope: -1.1522363
+      outSlope: -1.1522363
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
-      outWeight: 0.33333334
+      outWeight: 0.06371191
     - serializedVersion: 3
       time: 0.9974365
       value: -0.015464783
@@ -69623,13 +69627,13 @@ MonoBehaviour:
     m_Curve:
     - serializedVersion: 3
       time: 0.00030517578
-      value: 0.9964256
-      inSlope: -2.6274421
-      outSlope: -2.6274421
+      value: 0.7497564
+      inSlope: -1.1522363
+      outSlope: -1.1522363
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
-      outWeight: 0.33333334
+      outWeight: 0.06371191
     - serializedVersion: 3
       time: 0.9974365
       value: -0.015464783
@@ -74443,13 +74447,13 @@ MonoBehaviour:
     m_Curve:
     - serializedVersion: 3
       time: 0.00030517578
-      value: 0.9964256
-      inSlope: -2.6274421
-      outSlope: -2.6274421
+      value: 0.7497564
+      inSlope: -1.1522363
+      outSlope: -1.1522363
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
-      outWeight: 0.33333334
+      outWeight: 0.06371191
     - serializedVersion: 3
       time: 0.9974365
       value: -0.015464783
@@ -84144,7 +84148,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4516311884904113816}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.52}
+  m_LocalPosition: {x: 0, y: -0.046, z: 0.52}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4512836780602728402}
