@@ -9,6 +9,8 @@ namespace Q19
     public class BoostSettings
     {
         public Transform BoostBar;
+        public Transform MinBoostMeasure;
+        public Transform BoostMeasureEnd;
         public float Energy;
         public AnimationCurve BoostCurve;
         public float ActivationCost;
@@ -30,12 +32,19 @@ namespace Q19
         private float _boostTime = 0.3f;
         private Vector3 _moveForward;
         private bool _lockedAimMove;
+        private Vector3 _boostMeasureInitialPos;
 
-        private void Awake()
+        public void Awake()
         {
             mouseLook.Init(transform, playerView);
             mouseLook.SetCursorLock(true);
             retroController.OnTeleport += OnTeleport;
+            LockedAimMove(true);
+        }
+
+        public void Start()
+        {
+            _boostMeasureInitialPos = Boost.MinBoostMeasure.localPosition;
         }
 
         private void OnDestroy()
@@ -57,7 +66,7 @@ namespace Q19
             var moveDir = _lockedAimMove ? transform.forward : _moveForward;
             retroController.Velocity = moveDir * _moveSpeed * Time.fixedDeltaTime;
 
-            AddEnergy(Boost.IncreasePerSecond * Time.fixedDeltaTime);
+            ChangeEnergy(Boost.IncreasePerSecond * Time.fixedDeltaTime);
         }
 
         public virtual void Update()
@@ -79,7 +88,7 @@ namespace Q19
 
             if (boost && Boost.Energy >= Boost.ActivationCost)
             {
-                Boost.Energy -= Boost.ActivationCost;
+                ChangeEnergy(-Boost.ActivationCost);
                 //_moveSpeed += 30f;
                 DOTween.To(() => _acceleration, x => _acceleration = x, 1, _boostTime).OnComplete(() => _acceleration = 0);
                 mouseLook.DoBoostKick();
@@ -92,6 +101,8 @@ namespace Q19
 
             Boost.BoostBar.localScale = new Vector3(1, 1, Boost.Energy);
 
+            Boost.MinBoostMeasure.localPosition =
+                Vector3.Lerp(_boostMeasureInitialPos, Boost.BoostMeasureEnd.localPosition, Boost.ActivationCost);
 
             retroController.SetInput(0, 0, 0, false, false, false);
 
@@ -102,21 +113,19 @@ namespace Q19
             Time.timeScale = retroController.updateController ? Time.timeScale : 0;
         }
 
-        private void AddEnergy(float amount)
+        private void ChangeEnergy(float amount)
         {
             Boost.Energy = Mathf.Clamp(Boost.Energy + amount, 0, 1);
         }
 
         public void AddKillEnergy()
         {
-            AddEnergy(Boost.EnemyKillIncrease);
+            ChangeEnergy(Boost.EnemyKillIncrease);
         }
 
         public void LockedAimMove(bool lockedAimMove)
         {
-            if(!lockedAimMove && _lockedAimMove)
-                _moveForward = transform.forward;
-
+            _moveForward = transform.forward;
             _lockedAimMove = lockedAimMove;
         }
     }

@@ -2357,10 +2357,85 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7637293264592088902, guid: 625045d416627ec4283dbd5bc7189539,
+    - target: {fileID: 4521373342904623114, guid: 625045d416627ec4283dbd5bc7189539,
         type: 3}
-      propertyPath: near clip plane
-      value: 0.2
+      propertyPath: m_LocalPosition.y
+      value: -0.046
+      objectReference: {fileID: 0}
+    - target: {fileID: 4555431141650996962, guid: 625045d416627ec4283dbd5bc7189539,
+        type: 3}
+      propertyPath: shaderProgressCurve.m_Curve.Array.data[0].inSlope
+      value: -1.1522363
+      objectReference: {fileID: 0}
+    - target: {fileID: 4555431141650996962, guid: 625045d416627ec4283dbd5bc7189539,
+        type: 3}
+      propertyPath: shaderProgressCurve.m_Curve.Array.data[0].outSlope
+      value: -1.1522363
+      objectReference: {fileID: 0}
+    - target: {fileID: 4555431141650996962, guid: 625045d416627ec4283dbd5bc7189539,
+        type: 3}
+      propertyPath: shaderProgressCurve.m_Curve.Array.data[0].outWeight
+      value: 0.06371191
+      objectReference: {fileID: 0}
+    - target: {fileID: 4555431141650996962, guid: 625045d416627ec4283dbd5bc7189539,
+        type: 3}
+      propertyPath: shaderProgressCurve.m_Curve.Array.data[0].value
+      value: 0.7497564
+      objectReference: {fileID: 0}
+    - target: {fileID: 4555431141650996962, guid: 625045d416627ec4283dbd5bc7189539,
+        type: 3}
+      propertyPath: shaderProgressCurve.m_Curve.Array.data[0].time
+      value: 0.00030517578
+      objectReference: {fileID: 0}
+    - target: {fileID: 4555824431162974028, guid: 625045d416627ec4283dbd5bc7189539,
+        type: 3}
+      propertyPath: shaderProgressCurve.m_Curve.Array.data[0].inSlope
+      value: -1.1522363
+      objectReference: {fileID: 0}
+    - target: {fileID: 4555824431162974028, guid: 625045d416627ec4283dbd5bc7189539,
+        type: 3}
+      propertyPath: shaderProgressCurve.m_Curve.Array.data[0].outSlope
+      value: -1.1522363
+      objectReference: {fileID: 0}
+    - target: {fileID: 4555824431162974028, guid: 625045d416627ec4283dbd5bc7189539,
+        type: 3}
+      propertyPath: shaderProgressCurve.m_Curve.Array.data[0].outWeight
+      value: 0.06371191
+      objectReference: {fileID: 0}
+    - target: {fileID: 4555824431162974028, guid: 625045d416627ec4283dbd5bc7189539,
+        type: 3}
+      propertyPath: shaderProgressCurve.m_Curve.Array.data[0].value
+      value: 0.7497564
+      objectReference: {fileID: 0}
+    - target: {fileID: 4555824431162974028, guid: 625045d416627ec4283dbd5bc7189539,
+        type: 3}
+      propertyPath: shaderProgressCurve.m_Curve.Array.data[0].time
+      value: 0.00030517578
+      objectReference: {fileID: 0}
+    - target: {fileID: 4556453925331857656, guid: 625045d416627ec4283dbd5bc7189539,
+        type: 3}
+      propertyPath: shaderProgressCurve.m_Curve.Array.data[0].inSlope
+      value: -1.1522363
+      objectReference: {fileID: 0}
+    - target: {fileID: 4556453925331857656, guid: 625045d416627ec4283dbd5bc7189539,
+        type: 3}
+      propertyPath: shaderProgressCurve.m_Curve.Array.data[0].outSlope
+      value: -1.1522363
+      objectReference: {fileID: 0}
+    - target: {fileID: 4556453925331857656, guid: 625045d416627ec4283dbd5bc7189539,
+        type: 3}
+      propertyPath: shaderProgressCurve.m_Curve.Array.data[0].outWeight
+      value: 0.06371191
+      objectReference: {fileID: 0}
+    - target: {fileID: 4556453925331857656, guid: 625045d416627ec4283dbd5bc7189539,
+        type: 3}
+      propertyPath: shaderProgressCurve.m_Curve.Array.data[0].value
+      value: 0.7497564
+      objectReference: {fileID: 0}
+    - target: {fileID: 4556453925331857656, guid: 625045d416627ec4283dbd5bc7189539,
+        type: 3}
+      propertyPath: shaderProgressCurve.m_Curve.Array.data[0].time
+      value: 0.00030517578
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 625045d416627ec4283dbd5bc7189539, type: 3}

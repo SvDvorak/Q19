@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class Shooting : MonoBehaviour
 {
+    public static bool CurrentlyFiring;
+
     public Transform View;
     private Player _player;
 
@@ -11,19 +13,27 @@ public class Shooting : MonoBehaviour
         _player = GetComponent<Player>();
     }
 
-    public void FixedUpdate()
+    public void Update()
     {
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButtonDown(0))
         {
             Time.timeScale = 0.5f;
             _player.LockedAimMove(false);
-            KillAimedAt();
+            CurrentlyFiring = true;
         }
-        else
+        
+        if(Input.GetMouseButtonUp(0))
         {
-            _player.LockedAimMove(true);
             Time.timeScale = 1;
+            _player.LockedAimMove(true);
+            CurrentlyFiring = false;
         }
+    }
+
+    public void FixedUpdate()
+    {
+        if(CurrentlyFiring)
+            KillAimedAt();
     }
 
     private void KillAimedAt()

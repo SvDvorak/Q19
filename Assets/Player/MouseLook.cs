@@ -1,6 +1,8 @@
 using System;
 using Assets;
 using DG.Tweening;
+using DG.Tweening.Core;
+using DG.Tweening.Plugins.Options;
 using UnityEngine;
 
 namespace Q19
@@ -30,6 +32,7 @@ namespace Q19
         private float _kick;
 
         private float _tilt;
+        private TweenerCore<float, float, FloatOptions> _kickTween;
 
         public void Init(Transform character, Camera camera)
         {
@@ -67,8 +70,10 @@ namespace Q19
 
         public void DoBoostKick()
         {
-            if (_kick <= 0.001)
-                DOTween.To(() => _kick, x => _kick = x, 1, Boost.Time).OnComplete(() => _kick = 0);
+            //if (_kick <= 0.001)
+            if(_kickTween != null && !_kickTween.IsComplete())
+                _kickTween.Complete();
+            _kickTween = DOTween.To(() => _kick, x => _kick = x, 1, Boost.Time).OnComplete(() => _kick = 0);
         }
 
         public void SetCursorLock(bool value)
