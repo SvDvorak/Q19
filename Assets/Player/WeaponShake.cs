@@ -51,7 +51,7 @@ public class WeaponShake : MonoBehaviour
             shakee.localPosition = _initialPositions[i] + kick + shake * _shakeStrength;
         }
 
-        var kickRot = Quaternion.Euler(-30f * kickAmount, 0, 0);
+        var kickRot = Quaternion.Euler(-60f * kickAmount, 0, 0);
         Shakees[0].localRotation = _initialWeaponRot * kickRot;
     }
 }
