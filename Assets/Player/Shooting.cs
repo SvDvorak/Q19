@@ -6,6 +6,7 @@ public class Shooting : MonoBehaviour
     public static bool CurrentlyFiring;
 
     public Transform View;
+    public Animator WeaponAnimator;
     private Player _player;
     private WeaponShake _weaponShake;
 
@@ -20,8 +21,9 @@ public class Shooting : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             _weaponShake.StartShake();
-            //Time.timeScale = _player.SlowMotionTimeScale;
+            Time.timeScale = _player.SlowMotionTimeScale;
             _player.LockedAimMove(false);
+            WeaponAnimator.SetBool("IsFiring", true);
             CurrentlyFiring = true;
         }
         
@@ -30,6 +32,7 @@ public class Shooting : MonoBehaviour
             _weaponShake.StopShake();
             Time.timeScale = 1;
             _player.LockedAimMove(true);
+            WeaponAnimator.SetBool("IsFiring", false);
             CurrentlyFiring = false;
         }
 

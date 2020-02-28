@@ -31,6 +31,7 @@ namespace Q19
         public float SlowMotionTimeScale;
         public float FiringEnergyCost;
 
+        private WeaponShake _weaponShake;
         [DebugGUIGraph(min: 0, max: 50, r: 0, g: 1, b: 0, autoScale: true)]
         private float _moveSpeed;
         private float _acceleration;
@@ -49,6 +50,7 @@ namespace Q19
         public void Start()
         {
             _boostMeasureInitialPos = Boost.MinBoostMeasure.localPosition;
+            _weaponShake = GetComponent<WeaponShake>();
         }
 
         private void OnDestroy()
@@ -99,6 +101,7 @@ namespace Q19
                 //_moveSpeed += 30f;
                 DOTween.To(() => _acceleration, x => _acceleration = x, 1, Boost.BoostTime).OnComplete(() => _acceleration = 0);
                 mouseLook.DoBoostKick();
+                _weaponShake.SingleShortKick();
             }
 
             if (DEBUGStop)
