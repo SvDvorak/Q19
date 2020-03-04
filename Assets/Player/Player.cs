@@ -83,7 +83,7 @@ namespace Q19
             if (Input.GetKeyDown(KeyCode.Escape))
             {
                 mouseLook.SetCursorLock(!mouseLook.lockCursor);
-                retroController.updateController = !retroController.updateController;
+                //retroController.updateController = !retroController.updateController;
             }
 
             //var fwd = (Input.GetKey(KeyCode.W) ? 1 : 0) - (Input.GetKey(KeyCode.S) ? 1 : 0);
