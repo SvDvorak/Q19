@@ -1,5 +1,7 @@
 ﻿using System;
 using DG.Tweening;
+using DG.Tweening.Core;
+using DG.Tweening.Plugins.Options;
 using UnityEngine;
 using vnc;
 
@@ -15,6 +17,7 @@ namespace Q19
         public AnimationCurve BoostCurve;
         public float ActivationCost;
         public float BoostTime;
+        public float Acceleration;
         public float IncreasePerSecond;
         public float EnemyKillIncrease;
     }
@@ -27,9 +30,11 @@ namespace Q19
         public Camera playerView;            // the controller view
         public BoostSettings Boost;
         public bool ForceLockAimMove;
-        public float Friction;
+        public AnimationCurve SpeedAdjustment;
+        public float NominalSpeed;
+        public AnimationCurve FrictionCurve;
         public float SlowMotionTimeScale;
-        public float FiringEnergyCost;
+        public float FiringEnergyReduction;
 
         private WeaponShake _weaponShake;
         [DebugGUIGraph(min: 0, max: 50, r: 0, g: 1, b: 0, autoScale: true)]
@@ -38,6 +43,14 @@ namespace Q19
         private Vector3 _moveForward;
         private bool _lockedAimMove = true;
         private Vector3 _boostMeasureInitialPos;
+        private int _queuedBoosts;
+        private bool _isCurrentlyBoosting;
+        [DebugGUIGraph(min: 0, max: 2, r: 1, g: 0, b: 0, autoScale: true)]
+        private float _speedAdjustment;
+
+        private float _timeLastBoost;
+        [DebugGUIGraph(min: 0, max: 1f, r: 0, g: 0, b: 1, autoScale: true)]
+        private float _debugFriction;
 
         public void Awake()
         {
@@ -61,20 +74,24 @@ namespace Q19
         private void OnTeleport(Vector3 position, Quaternion rotation)
         {
             mouseLook.RealignRotation(rotation);
+            //_moveForward = rotation * _moveForward;
         }
 
         public virtual void FixedUpdate()
         {
-            var accelerationSpeed = _acceleration > 0 ? Boost.BoostCurve.Evaluate(_acceleration) / Boost.BoostTime : 0;
-            _moveSpeed = (_moveSpeed + accelerationSpeed) *
-                         (1 - Friction * Time.fixedDeltaTime);
+            _debugFriction = 1 - FrictionCurve.Evaluate(Time.time - _timeLastBoost);
+            var friction = 1 - FrictionCurve.Evaluate(Time.time - _timeLastBoost) * Time.fixedDeltaTime;
+
+            var accelerationSpeed = _isCurrentlyBoosting ? Boost.BoostCurve.Evaluate(_acceleration) * Boost.Acceleration : 0;
+            _speedAdjustment = SpeedAdjustment.Evaluate(_moveSpeed / NominalSpeed);
+            _moveSpeed = (_moveSpeed + accelerationSpeed * _speedAdjustment) * friction;
             //retroController.Velocity = transform.forward * 5 * Time.fixedDeltaTime;
             var moveDir = _lockedAimMove ? transform.forward : _moveForward;
             retroController.Velocity = moveDir * _moveSpeed * Time.fixedDeltaTime;
 
             var boostChange = Boost.IncreasePerSecond;
             if (Shooting.CurrentlyFiring)
-                boostChange = FiringEnergyCost;
+                boostChange *= FiringEnergyReduction;
             ChangeEnergy(boostChange * Time.fixedDeltaTime);
         }
 
@@ -92,21 +109,36 @@ namespace Q19
             //swim = (Input.GetKey(KeyCode.Space) ? 1 : 0) - (Input.GetKey(KeyCode.C) ? 1 : 0);
             var boost = Input.GetKeyDown(KeyCode.Space);
             //sprint = Input.GetKey(KeyCode.LeftShift);
-            var DEBUGStop = Input.GetKeyDown(KeyCode.LeftControl);
+            var slowdown = Input.GetKey(KeyCode.LeftControl);
 
-
-            if (boost && Boost.Energy >= Boost.ActivationCost)
+            if (boost)
             {
-                ChangeEnergy(-Boost.ActivationCost);
-                //_moveSpeed += 30f;
-                DOTween.To(() => _acceleration, x => _acceleration = x, 1, Boost.BoostTime).OnComplete(() => _acceleration = 0);
-                mouseLook.DoBoostKick();
-                _weaponShake.SingleShortKick();
+                _queuedBoosts += 1;
             }
 
-            if (DEBUGStop)
+            if (_queuedBoosts > 0 && !_isCurrentlyBoosting)
             {
-                _moveSpeed = 0;
+                if(Boost.Energy >= Boost.ActivationCost)
+                {
+                    _isCurrentlyBoosting = true;
+                    ChangeEnergy(-Boost.ActivationCost);
+                    //_moveSpeed += 30f;
+                    DOTween.To(() => _acceleration, x => _acceleration = x, 1, Boost.BoostTime).OnComplete(() =>
+                    {
+                        _isCurrentlyBoosting = false;
+                        _acceleration = 0;
+                    });
+                    mouseLook.DoBoostKick();
+                    _weaponShake.SingleShortKick();
+                    _timeLastBoost = Time.time;
+                }
+
+                _queuedBoosts -= 1;
+            }
+
+            if (slowdown)
+            {
+                _moveSpeed *= 1 - 0.98f * Time.deltaTime;
             }
 
             Boost.BoostBar.localScale = new Vector3(1, 1, Boost.Energy);

@@ -1137,14 +1137,108 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    ActivationCost: 0.4
-    BoostTime: 0.3
-    IncreasePerSecond: 0.2
-    EnemyKillIncrease: 0.3
+    ActivationCost: 0.3
+    BoostTime: 0.2
+    Acceleration: 5
+    IncreasePerSecond: 0.15
+    EnemyKillIncrease: 0.15
   ForceLockAimMove: 0
-  Friction: 0.3
+  SpeedAdjustment:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.9978491
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.7780958
+      value: 0.98632175
+      inSlope: -0.05651825
+      outSlope: -0.05651825
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.26134756
+    - serializedVersion: 3
+      time: 0.8956394
+      value: 0.8048926
+      inSlope: -3.1885085
+      outSlope: -3.1885085
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0.30046448
+      inSlope: -4.8335123
+      outSlope: -4.8335123
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  NominalSpeed: 60
+  FrictionCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: -0.0018081005
+      value: 0.251051
+      inSlope: 0.013339906
+      outSlope: 0.013339906
+      tangentMode: 35
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1.0907251
+      value: 0.2656253
+      inSlope: 0.053412687
+      outSlope: 0.053412687
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1.3314106
+      value: 0.2881259
+      inSlope: 0.16325143
+      outSlope: 0.16325143
+      tangentMode: 35
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1.5176326
+      value: 0.33151886
+      inSlope: 0.29127374
+      outSlope: 0.29127374
+      tangentMode: 35
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 2.0015867
+      value: 0.5006754
+      inSlope: 0.3495301
+      outSlope: 0.3495301
+      tangentMode: 35
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   SlowMotionTimeScale: 0.5
-  FiringEnergyCost: 0.1
+  FiringEnergyReduction: 0.5
 --- !u!114 &2342717550715931059
 MonoBehaviour:
   m_ObjectHideFlags: 0
