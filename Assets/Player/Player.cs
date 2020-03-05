@@ -99,7 +99,10 @@ namespace Q19
         {
             if (Input.GetKeyDown(KeyCode.Escape))
             {
-                mouseLook.SetCursorLock(!mouseLook.lockCursor);
+                if (Application.isEditor)
+                    mouseLook.SetCursorLock(!mouseLook.lockCursor);
+                else
+                    Application.Quit(0);
                 //retroController.updateController = !retroController.updateController;
             }
 

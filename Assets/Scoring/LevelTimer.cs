@@ -23,8 +23,8 @@ public class LevelTimer : MonoBehaviour
         if (ScoreTimeInSeconds < BestScoreTimeInSeconds)
             BestScoreTimeInSeconds = ScoreTimeInSeconds;
 
-        TextMesh.text = $"Last: {ScoreTimeInSeconds:F4}\n" +
-                        $"Best: {BestScoreTimeInSeconds:F4}";
+        TextMesh.text = $"Last: {ScoreTimeInSeconds:F3}\n" +
+                        $"Best: {BestScoreTimeInSeconds:F3}";
 
         TextMesh.enabled = true;
     }
