@@ -25,7 +25,6 @@ namespace Q19
     public class Player : MonoBehaviour
     {
         public RetroController retroController; // the controller used
-        public RetroControllerView retroView;
         public MouseLook mouseLook;             // mouse look
         public Camera playerView;            // the controller view
         public BoostSettings Boost;
@@ -37,7 +36,7 @@ namespace Q19
         public float FiringEnergyReduction;
 
         private WeaponShake _weaponShake;
-        [DebugGUIGraph(min: 0, max: 50, r: 0, g: 1, b: 0, autoScale: true)]
+        [DebugGUIGraph(min: 0, max: 20, r: 0, g: 1, b: 0, autoScale: true)]
         private float _moveSpeed;
         private float _acceleration;
         private Vector3 _moveForward;
@@ -82,10 +81,11 @@ namespace Q19
             _debugFriction = 1 - FrictionCurve.Evaluate(Time.time - _timeLastBoost);
             var friction = 1 - FrictionCurve.Evaluate(Time.time - _timeLastBoost) * Time.fixedDeltaTime;
 
-            var accelerationSpeed = _isCurrentlyBoosting ? Boost.BoostCurve.Evaluate(_acceleration) * Boost.Acceleration : 0;
+            var accelerationSpeed =
+                (_isCurrentlyBoosting ? Boost.BoostCurve.Evaluate(_acceleration) * Boost.Acceleration : 0)
+                * Time.fixedDeltaTime;
             _speedAdjustment = SpeedAdjustment.Evaluate(_moveSpeed / NominalSpeed);
             _moveSpeed = (_moveSpeed + accelerationSpeed * _speedAdjustment) * friction;
-            //retroController.Velocity = transform.forward * 5 * Time.fixedDeltaTime;
             var moveDir = _lockedAimMove ? transform.forward : _moveForward;
             retroController.Velocity = moveDir * _moveSpeed * Time.fixedDeltaTime;
 
@@ -103,7 +103,6 @@ namespace Q19
                     mouseLook.SetCursorLock(!mouseLook.lockCursor);
                 else
                     Application.Quit(0);
-                //retroController.updateController = !retroController.updateController;
             }
 
             //var fwd = (Input.GetKey(KeyCode.W) ? 1 : 0) - (Input.GetKey(KeyCode.S) ? 1 : 0);
@@ -125,7 +124,6 @@ namespace Q19
                 {
                     _isCurrentlyBoosting = true;
                     ChangeEnergy(-Boost.ActivationCost);
-                    //_moveSpeed += 30f;
                     DOTween.To(() => _acceleration, x => _acceleration = x, 1, Boost.BoostTime).OnComplete(() =>
                     {
                         _isCurrentlyBoosting = false;
