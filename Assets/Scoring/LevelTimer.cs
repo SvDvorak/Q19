@@ -24,7 +24,8 @@ public class LevelTimer : MonoBehaviour
             BestScoreTimeInSeconds = ScoreTimeInSeconds;
 
         TextMesh.text = $"Last: {ScoreTimeInSeconds:F3}\n" +
-                        $"Best: {BestScoreTimeInSeconds:F3}";
+                        $"Best: {BestScoreTimeInSeconds:F3}\n" + 
+                        $"Developer: {2.48:F3}";
 
         TextMesh.enabled = true;
     }
