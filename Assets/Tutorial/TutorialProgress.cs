@@ -46,32 +46,24 @@ public class TutorialProgress : MonoBehaviour
         _step += 1;
         var currentStep = _steps[_step - 1];
 
-        //var fadeIn = FadePane.GetComponent<FadeIn>();
-        //yield return fadeIn.StartTask();
-        //yield return new WaitForSeconds(0.1f);
-
         yield return HideVisuals();
-        //.AppendCallback(() =>
-        //{
-        VideoPlayer.clip = currentStep.Video;
-        TextElement.text = currentStep.Text;
+        LoadVideo(currentStep);
         var vpos = VisualsPane.localPosition;
         VisualsPane.localPosition = new Vector3(-vpos.x, vpos.y, vpos.z);
 
-        while (!VideoPlayer.isPrepared)
+        while (VideoPlayer.clip != null && !VideoPlayer.isPrepared)
             yield return null;
 
         yield return ShowVisuals();
-        //})
-        //.Append(ShowVisuals())
-        //.WaitForCompletion();
-
-
-        //var fadeOut = FadePane.GetComponent<FadeOut>();
-        //yield return fadeOut.StartTask();
 
         _loadingNextStep = false;
         yield return null;
+    }
+
+    private void LoadVideo(TutorialStep currentStep)
+    {
+        VideoPlayer.clip = currentStep.Video;
+        TextElement.text = currentStep.Text;
     }
 
     private IEnumerator HideVisuals()
