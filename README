@@ -1,23 +1,3 @@
-TODO
-----
-- Enemy texture
-- Enemy gibs model & texture
-- Enemy blood sprite
-- Firing slowmo post process color effect
-- Speed streaks particle effect (at high speeds)
-- Smaller laser, mostly at aimed target (hard to see what you're shooting at)
-- Music, even if just ripped
-- Transition limits speed (maybe no friction too?), each playthrough should be independent
-- Higher energy max, try to make user "save up" on boosts, ie make boosting a strategic decision and not just a reaction as player gets more energy from kills.
-- New level to test out speeds better, I want the lowest to stay the same but max speed should be lowered somehow. Maybe by having more friction at higher speeds. It should always be better to be going fast but there should be a reason to maybe time out your boosts better.
-- A slight vignette on camera?
-- Try adding breaking when turning, ie turning is "negative". Not sure this will be good though
-- If publishing, an info screen on start
-- Level timer is using physics update, possible to use render update instead? Limited to physics tickrate otherwise.
-
-- Possible design change to test. Usually I want to use boost immediately after having stopped shooting, maybe make this automatic? Though gotta have a locked base speed to start from in that case.
-
-
 DESIGN
 ------
 
